@@ -1,0 +1,14 @@
+THIS PROJECT IS A LOCAL FEATURE EDITOR WITH SAVING INFO IN BROWSER
+Next todos: 
+1)country editing: хранить информацию о стиле (base, active) персонально в каждой feature и исходя из этого переделать логику рисования
+2)редактирование - сохранение названия и описания
+3)добавить возможность показывать tooltip или сторонний label
+4)применить sass для стилей - разбить стиль на логические части
+5)применить pug для шаблона
+6)пофиксить работу contextMenu (вызывается при клике на других виджетах - неверно)
+7)overview работы всего редактора стран
+
+Use pag templates to separate long html-file
+Use scss for css processing
+For local browsing cashing use SQL-LITE IN BROWSER
+Use typescript support
