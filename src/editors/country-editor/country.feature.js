@@ -12,7 +12,7 @@ export class CountryFeature extends Feature {
 		super.setId(feature.getId());
 		super.set('activeStyle', selectedFeatureStyle(0, 123, 255, feature.get('name')));
 		super.set('baseStyle', baseFeatureStyle(0, 123, 255, feature.get('name')));
-		super.setStyle(emptyFeatureStyle()) // default feature style pass ft style there
+		super.setStyle(emptyFeatureStyle()) 
 	}
 
 

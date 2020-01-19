@@ -1,5 +1,6 @@
 import { Fill, Stroke, Style, Text } from 'ol/style';
 
+//TODO: dynamic change text size depending on map zoom
 export const emptyFeatureStyle = () => {
   return new Style({
     stroke: new Stroke({
@@ -17,10 +18,10 @@ export const baseFeatureStyle = (R, G, B, label) => {
       color:  `rgba(${R}, ${G}, ${B}, 0.8)`
 		}),
 		text: new Text({
-			font: `12px Arial`,
+			font: '16px Arial',
 			backgroundFill: new Fill({color: 'white'}),
-			backgroundStroke: new Stroke({color: '#e7e7e7', width: 2}),
-			padding: [5,5,5,5],
+			backgroundStroke: new Stroke({color: '#e7e7e7'}),
+			padding: [5,5,5,8],
 			rotateWithView: true,
 			text: label,
 			overflow: true
@@ -38,7 +39,7 @@ export const selectedFeatureStyle = (R, G, B, label) => {
       width: 3
 		}),
 		text: new Text({
-			font: '12px Arial',
+			font: '16px Arial',
 			backgroundFill: new Fill({color: 'white'}),
 			backgroundStroke: new Stroke({color: '#e7e7e7'}),
 			padding: [5,5,5,8],
