@@ -1,4 +1,4 @@
-import { Fill, Stroke, Style } from 'ol/style';
+import { Fill, Stroke, Style, Text } from 'ol/style';
 
 export const emptyFeatureStyle = () => {
   return new Style({
@@ -7,19 +7,28 @@ export const emptyFeatureStyle = () => {
     }),
     fill: new Fill({
       color: 'rgba(0,0,0,0)'
-    })
+		})
   });
 }
 
-export const baseFeatureStyle = (R, G, B) => {
+export const baseFeatureStyle = (R, G, B, label) => {
   return new Style({
     fill: new Stroke({
       color:  `rgba(${R}, ${G}, ${B}, 0.8)`
-    }),
+		}),
+		text: new Text({
+			font: `12px Arial`,
+			backgroundFill: new Fill({color: 'white'}),
+			backgroundStroke: new Stroke({color: '#e7e7e7', width: 2}),
+			padding: [5,5,5,5],
+			rotateWithView: true,
+			text: label,
+			overflow: true
+		})
   });
 }
 
-export const selectedFeatureStyle = (R, G, B) => {
+export const selectedFeatureStyle = (R, G, B, label) => {
   return new Style({
     fill: new Stroke({
       color:  `rgba(${R}, ${G}, ${B}, 0.8)`
@@ -27,6 +36,15 @@ export const selectedFeatureStyle = (R, G, B) => {
     stroke: new Stroke({
       color: `rgba(${R}, ${G}, ${B}, 1)`,
       width: 3
-    })
+		}),
+		text: new Text({
+			font: '12px Arial',
+			backgroundFill: new Fill({color: 'white'}),
+			backgroundStroke: new Stroke({color: '#e7e7e7'}),
+			padding: [5,5,5,8],
+			rotateWithView: true,
+			text: label,
+			overflow: true
+		})
   });
 }

@@ -55,7 +55,8 @@ export class MapCountryEditor {
 		});
 
     this.map.addLayer(new VectorLayer({
-      source: this.vectorSource,
+			source: this.vectorSource,	
+			declutter: true	
 		}))
 		
 		this.map.addControl(this.control);

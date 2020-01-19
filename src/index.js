@@ -13,7 +13,6 @@ import { MapCountryEditor, MAP_COUNTRY_EDITOR_EVENTS } from './editors/country-e
 import { defaults as defaultControls } from 'ol/control';
 import { MapControlPanel } from './controls/map.control.panel';
 import { MapZoomControl } from './controls/map.zoom';
-import { CountryEditorControlPanel } from './editors/country-editor/country.control.panel';
 
 const map = new Map({
   layers: [
@@ -40,7 +39,6 @@ contextMenu.on(MAP_CONTEXT_MENU_EVENTS.COUNTRY_OPTION_SELECTED,
   () => map.dispatchEvent(MAP_COUNTRY_EDITOR_EVENTS.SELECT_COUNTRY)
 );
 map.addControl(contextMenu);
-
 
 const viewport = map.getViewport();
 
