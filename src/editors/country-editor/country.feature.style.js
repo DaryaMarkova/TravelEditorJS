@@ -1,6 +1,17 @@
 import { Fill, Stroke, Style, Text } from 'ol/style';
 
-//TODO: dynamic change text size depending on map zoom
+export const featureTextStyle = (label, zoom = 1) => {
+	return new Text({
+		font: '12px Arial',
+		backgroundFill: new Fill({color: 'white'}),
+		backgroundStroke: new Stroke({color: '#e7e7e7'}),
+		padding: [5,2,2,5],
+		rotateWithView: true,
+		text: label,
+		overflow: true
+	})
+}
+
 export const emptyFeatureStyle = () => {
   return new Style({
     stroke: new Stroke({
@@ -12,40 +23,45 @@ export const emptyFeatureStyle = () => {
   });
 }
 
-export const baseFeatureStyle = (R, G, B, label) => {
+export const baseFeatureStyle = (R, G, B, label, zoom) => {
   return new Style({
-    fill: new Stroke({
-      color:  `rgba(${R}, ${G}, ${B}, 0.8)`
+    fill: new Fill({
+			color:  `rgba(${R}, ${G}, ${B}, 0.8)`,
 		}),
-		text: new Text({
-			font: '16px Arial',
-			backgroundFill: new Fill({color: 'white'}),
-			backgroundStroke: new Stroke({color: '#e7e7e7'}),
-			padding: [5,5,5,8],
-			rotateWithView: true,
-			text: label,
-			overflow: true
-		})
+		text: featureTextStyle(label, zoom)
   });
 }
 
-export const selectedFeatureStyle = (R, G, B, label) => {
+export const selectedFeatureStyle = (R, G, B, label, zoom) => {
   return new Style({
-    fill: new Stroke({
-      color:  `rgba(${R}, ${G}, ${B}, 0.8)`
+    fill: new Fill({
+			color:  `rgba(${R}, ${G}, ${B}, 0.8)`,
     }),
     stroke: new Stroke({
       color: `rgba(${R}, ${G}, ${B}, 1)`,
       width: 3
 		}),
-		text: new Text({
-			font: '16px Arial',
-			backgroundFill: new Fill({color: 'white'}),
-			backgroundStroke: new Stroke({color: '#e7e7e7'}),
-			padding: [5,5,5,8],
-			rotateWithView: true,
-			text: label,
-			overflow: true
-		})
+		text: featureTextStyle(label, zoom)
   });
 }
+// geometry: function(feature) {
+// 	var retPoint;
+
+// 	if (feature.getGeometry().getType() === 'MultiPolygon') {
+// 		retPoint =  getMaxPoly(feature.getGeometry().getPolygons()).getInteriorPoint();
+// 	} else if (feature.getGeometry().getType() === 'Polygon') {
+// 		retPoint = feature.getGeometry().getInteriorPoint();
+// 	}
+	
+// 	return retPoint;
+// }
+function getMaxPoly(polys) {
+  var polyObj = [];
+  // now need to find which one is the greater and so label only this
+  for (var b = 0; b < polys.length; b++) {
+    polyObj.push({ poly: polys[b], area: polys[b].getArea() });
+  }
+  polyObj.sort(function (a, b) { return a.area - b.area });
+
+  return polyObj[polyObj.length - 1].poly;
+ }

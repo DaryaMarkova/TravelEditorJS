@@ -4,6 +4,7 @@ import { CountryEditorControlPanel, COUNTRY_EDITOR_CONTROL_PANEL_EVENTS } from '
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { CountryFeature } from './country.feature';
+import throttle from 'lodash/throttle';
 
 export class MapCountryEditor {
   constructor(map) {
@@ -35,11 +36,25 @@ export class MapCountryEditor {
 
     this.control.on(COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.STYLE_CHANGED, data => {
       this.selectedFeatures.forEach(ft => {
-				ft.activeStyle = data.color;
-				ft.baseStyle = data.color;
+				ft.activeStyle = {color: data.color};
+				ft.baseStyle = {color: data.color};
 				ft.setStyle(ft.activeStyle);
 			});
     })
+
+    const mapView = this.map.getView();
+    mapView.on('change:resolution', throttle(() => {
+        const zoom = parseInt(mapView.getZoom());
+        const [feature] = this.selectedFeatures || [];
+        
+        if (!feature) {
+          return;
+        }
+
+        feature.baseStyle = {zoom};
+        feature.activeStyle = {zoom}; 
+
+    }, 300));
   }
 
   apply() {
@@ -55,8 +70,7 @@ export class MapCountryEditor {
 		});
 
     this.map.addLayer(new VectorLayer({
-			source: this.vectorSource,	
-			declutter: true	
+			source: this.vectorSource
 		}))
 		
 		this.map.addControl(this.control);

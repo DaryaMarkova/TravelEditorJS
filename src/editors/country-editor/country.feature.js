@@ -2,7 +2,8 @@ import Feature from 'ol/Feature';
 import {
 	emptyFeatureStyle, 
   baseFeatureStyle, 
-  selectedFeatureStyle 
+	selectedFeatureStyle,
+	featureTextStyle 
 } from './country.feature.style.js';
 
 export class CountryFeature extends Feature {
@@ -15,7 +16,6 @@ export class CountryFeature extends Feature {
 		super.setStyle(emptyFeatureStyle()) 
 	}
 
-
 	get baseStyle() {
 		return super.get('baseStyle');
 	}
@@ -24,15 +24,29 @@ export class CountryFeature extends Feature {
 		return super.get('activeStyle');
 	}
 
-	set baseStyle(color) {
-		const [r, g, b] = color.split(',');
-		const baseStyle = baseFeatureStyle(r, g, b, super.get('name'));
-		super.set('baseStyle', baseStyle);
-	}
+	set baseStyle({color, zoom}) {
+		if (!color) {
+			const baseStyle = this.baseStyle;
+			baseStyle.setText(featureTextStyle(this.get('name'), zoom));
+			super.set('baseStyle', baseStyle);
+			return;
+		}
 
-	set activeStyle(color) {
+		const [r, g, b] = color.split(','); 
+		const baseStyle = baseFeatureStyle(r, g, b, super.get('name'), zoom);
+		super.set('baseStyle', baseStyle);
+	} 
+
+	set activeStyle({color, zoom}) {
+		if (!color) {
+			const activeStyle = this.activeStyle;
+			activeStyle.setText(featureTextStyle(this.get('name'), zoom));
+			super.set('activeStyle', activeStyle);
+			return;
+		}
+
 		const [r, g, b] = color.split(',');
-		const activeStyle = selectedFeatureStyle(r, g, b, super.get('name'));
+		const activeStyle = selectedFeatureStyle(r, g, b, super.get('name'), zoom);
 		super.set('activeStyle', activeStyle);
 	}
 }
