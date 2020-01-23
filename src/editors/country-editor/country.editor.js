@@ -4,7 +4,6 @@ import { CountryEditorControlPanel, COUNTRY_EDITOR_CONTROL_PANEL_EVENTS } from '
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { CountryFeature } from './country.feature';
-import throttle from 'lodash/throttle';
 
 export class MapCountryEditor {
   constructor(map) {
@@ -36,25 +35,24 @@ export class MapCountryEditor {
 
     this.control.on(COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.STYLE_CHANGED, data => {
       this.selectedFeatures.forEach(ft => {
-				ft.activeStyle = {color: data.color};
-				ft.baseStyle = {color: data.color};
+        ft.color = data.color;
+        
+				ft.activeStyle = {color: data.color, showLabel: data.status};
+				ft.baseStyle = {color: data.color, showLabel: data.status};
 				ft.setStyle(ft.activeStyle);
 			});
+    });
+
+    this.control.on(COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.SHOW_LABEL_CHANGED, data => {
+      const [feature] = this.selectedFeatures;
+
+      if (feature) {
+        feature.showLabel = data.status;
+        feature.activeStyle = { showLabel: data.status, color: data.color};
+        feature.baseStyle = { showLabel: data.status, color: data.color};
+        feature.setStyle(feature.activeStyle);
+      }
     })
-
-    const mapView = this.map.getView();
-    mapView.on('change:resolution', throttle(() => {
-        const zoom = parseInt(mapView.getZoom());
-        const [feature] = this.selectedFeatures || [];
-        
-        if (!feature) {
-          return;
-        }
-
-        feature.baseStyle = {zoom};
-        feature.activeStyle = {zoom}; 
-
-    }, 300));
   }
 
   apply() {

@@ -11,17 +11,30 @@ export class CountryEditorControlPanel extends Control {
     this.map = map;
     this.elem$ = $(elemId);
     this.title$ = this.elem$.find('#country-title-field');
-    this.switcher$ = this.elem$.find('.btn-colored');
+    this.colorSwitcher$ = this.elem$.find('.btn-colored');
+    this.labelSwitcher$ = this.elem$.find('#country-label-switch')
     this.elem$.hide();
     this.bindEvents();
   }
 
   bindEvents() {
-    this.switcher$.on('click', ({target}) => {
-      const rgbValue = $(target).attr('rgb');
+    this.colorSwitcher$.on('click', ({target}) => {
+      const value = $(target).attr('rgb');
+
       this.dispatchEvent({
         type: COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.STYLE_CHANGED,
-        color: rgbValue
+        color: value,
+        status: this.feature.showLabel
+      })
+    });
+
+    this.labelSwitcher$.on('click', ({target}) => {
+      const checked = $(target).is(':checked');
+
+      this.dispatchEvent({
+        type: COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.SHOW_LABEL_CHANGED,
+        status: checked,
+        color:  this.feature.color
       })
     })
   }
@@ -29,6 +42,7 @@ export class CountryEditorControlPanel extends Control {
   open(countryFeature) {
     this.feature = countryFeature;
     this.title$.val(this.feature.get('name'));
+    this.labelSwitcher$.prop("checked", !!this.feature.showLabel); 
     this.elem$.slideDown(300);
   }
 
@@ -38,5 +52,6 @@ export class CountryEditorControlPanel extends Control {
 }
 
 export const COUNTRY_EDITOR_CONTROL_PANEL_EVENTS = {
-  STYLE_CHANGED: 'COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.STYLE_CHANGED'
+  STYLE_CHANGED: 'COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.STYLE_CHANGED',
+  SHOW_LABEL_CHANGED: 'COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.SHOW_LABEL_CHANGED'
 }

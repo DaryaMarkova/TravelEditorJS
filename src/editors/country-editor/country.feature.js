@@ -3,7 +3,6 @@ import {
 	emptyFeatureStyle, 
   baseFeatureStyle, 
 	selectedFeatureStyle,
-	featureTextStyle 
 } from './country.feature.style.js';
 
 export class CountryFeature extends Feature {
@@ -14,6 +13,7 @@ export class CountryFeature extends Feature {
 		super.set('activeStyle', selectedFeatureStyle(0, 123, 255, feature.get('name')));
 		super.set('baseStyle', baseFeatureStyle(0, 123, 255, feature.get('name')));
 		super.setStyle(emptyFeatureStyle()) 
+		this.color = '0,123,255';
 	}
 
 	get baseStyle() {
@@ -24,29 +24,15 @@ export class CountryFeature extends Feature {
 		return super.get('activeStyle');
 	}
 
-	set baseStyle({color, zoom}) {
-		if (!color) {
-			const baseStyle = this.baseStyle;
-			baseStyle.setText(featureTextStyle(this.get('name'), zoom));
-			super.set('baseStyle', baseStyle);
-			return;
-		}
-
+	set baseStyle({color, showLabel}) {
 		const [r, g, b] = color.split(','); 
-		const baseStyle = baseFeatureStyle(r, g, b, super.get('name'), zoom);
+		const baseStyle = baseFeatureStyle(r, g, b, super.get('name'), showLabel);
 		super.set('baseStyle', baseStyle);
 	} 
 
-	set activeStyle({color, zoom}) {
-		if (!color) {
-			const activeStyle = this.activeStyle;
-			activeStyle.setText(featureTextStyle(this.get('name'), zoom));
-			super.set('activeStyle', activeStyle);
-			return;
-		}
-
+	set activeStyle({color, showLabel}) {
 		const [r, g, b] = color.split(',');
-		const activeStyle = selectedFeatureStyle(r, g, b, super.get('name'), zoom);
+		const activeStyle = selectedFeatureStyle(r, g, b, super.get('name'), showLabel);
 		super.set('activeStyle', activeStyle);
 	}
 }

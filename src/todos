@@ -1,9 +1,10 @@
 THIS PROJECT IS A LOCAL FEATURE EDITOR WITH SAVING INFO IN BROWSER
 
-!!!НАСЧЕТ ПОДПИСЕЙ - БАГ ВОЗНИКАЕТ СО СТРУКТУРОЙ MULTIPOLYGON - ТОГДА НАДПИСЕЙ СТАНОВИТСЯ НЕСКОЛЬКО
-!!!МОЖНО ПОПРОБОВАТЬ ЗАДАТЬ СТИЛЬ ПЕРСОНАЛЬНО ДЛЯ КАЖДОГО ПОЛИГОНА ИЗ ВСЕХ ПОЛИГОНОВ И ПОКАЗЫВАТЬ ОБВОДКУ ТОЛЬКО ДЛЯ НАИБОЛЬШЕГО ПОЛИГОНА
-https://stackoverflow.com/questions/37306548/how-to-show-one-label-per-multi-polygon-in-open-layers-3/37316821
-!!!ВАРЬИРОВАТЬ РАЗМЕР ПОДПИСИ В ЗАВИСИМОСТИ ОТ ПАРАМЕТРА ЗУМА
+NEXT TODOS: 
+
+colors and labels can't be aplied now
+redo the architecture of country control panel (all the feature changes inside them, pass once selected feature)
+redo the setters in CountryFeature class
 
 Next todos: 
 1)country editing: хранить информацию о стиле (base, active) персонально в каждой feature и исходя из этого переделать логику рисования
