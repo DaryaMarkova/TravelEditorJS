@@ -24,15 +24,27 @@ export class CountryFeature extends Feature {
 		return super.get('activeStyle');
 	}
 
-	set baseStyle({color, showLabel}) {
+	// style: {color, showLabel}
+	set baseStyle(style) {
+		const color = style.color || this.color, show = style.showLabel || this.showLabel;
 		const [r, g, b] = color.split(','); 
-		const baseStyle = baseFeatureStyle(r, g, b, super.get('name'), showLabel);
+		const baseStyle = baseFeatureStyle(r, g, b, super.get('name'), show);
 		super.set('baseStyle', baseStyle);
 	} 
 
-	set activeStyle({color, showLabel}) {
+	// style: {color, showLabel}
+	set activeStyle(style) {
+		const color = style.color || this.color, show = style.showLabel || this.showLabel;
 		const [r, g, b] = color.split(',');
-		const activeStyle = selectedFeatureStyle(r, g, b, super.get('name'), showLabel);
+		const activeStyle = selectedFeatureStyle(r, g, b, super.get('name'), show);
 		super.set('activeStyle', activeStyle);
+	}
+
+	renderBasic() {
+		this.setStyle(this.baseStyle);
+	}
+
+	renderActive() {
+		this.setStyle(this.activeStyle);
 	}
 }

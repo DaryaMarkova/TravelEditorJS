@@ -11,6 +11,7 @@ export class CountryEditorControlPanel extends Control {
     this.map = map;
     this.elem$ = $(elemId);
     this.title$ = this.elem$.find('#country-title-field');
+    this.description$ = this.elem$.find('#country-description-field');
     this.colorSwitcher$ = this.elem$.find('.btn-colored');
     this.labelSwitcher$ = this.elem$.find('#country-label-switch')
     this.elem$.hide();
@@ -21,37 +22,43 @@ export class CountryEditorControlPanel extends Control {
     this.colorSwitcher$.on('click', ({target}) => {
       const value = $(target).attr('rgb');
 
-      this.dispatchEvent({
-        type: COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.STYLE_CHANGED,
-        color: value,
-        status: this.feature.showLabel
-      })
+      this.feature.color = value;
+      this.feature.activeStyle = { color: value }; 
+      this.feature.baseStyle = { color: value };
+      this.feature.renderActive();
     });
 
     this.labelSwitcher$.on('click', ({target}) => {
       const checked = $(target).is(':checked');
 
-      this.dispatchEvent({
-        type: COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.SHOW_LABEL_CHANGED,
-        status: checked,
-        color:  this.feature.color
-      })
+      this.feature.showLabel = checked;
+      this.feature.activeStyle = { showLabel: checked }; 
+      this.feature.baseStyle = {  showLabel: checked };
+      this.feature.renderActive();
     })
+
+    this.description$.on('input', _ => {
+      this.feature.description = this.description$.val();
+    });
   }
 
-  open(countryFeature) {
-    this.feature = countryFeature;
-    this.title$.val(this.feature.get('name'));
+  applyToFeature(feature) {
+    this.feature = feature;
+    this.readProperties(feature);
+    this.open();
+  }
+
+  readProperties(feature) {
+    this.title$.val(feature.get('name'));
+    this.description$.val(feature.description);
     this.labelSwitcher$.prop("checked", !!this.feature.showLabel); 
+  }
+
+  open() {
     this.elem$.slideDown(300);
   }
 
   close() {
     this.elem$.slideUp(200);
   }
-}
-
-export const COUNTRY_EDITOR_CONTROL_PANEL_EVENTS = {
-  STYLE_CHANGED: 'COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.STYLE_CHANGED',
-  SHOW_LABEL_CHANGED: 'COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.SHOW_LABEL_CHANGED'
 }
