@@ -1,0 +1,55 @@
+@import './src/editors/country-editor/style.scss';
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.map {
+  width: 1152px;
+  height: 864px;
+  margin: 50px auto;
+  background: silver;
+
+  .ol-zoom {
+    display: none;
+  }
+
+  .ol-attribution.ol-unselectable.ol-control.ol-uncollapsible {
+    opacity: 0;
+  }
+}
+
+#context-menu {
+  position: absolute;
+  opacity: 0;
+
+  .card .dropdown-item {
+    padding-left: 15px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 12px;
+  }
+}
+
+#control-panel {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 300px;
+}
+
+#map-zoomer {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+
+  button {
+    display: block;
+    width: 34px;
+    height: 34px;
+    margin: 5px;
+    padding: 0px;
+    border-radius: 50%;
+   }
+}

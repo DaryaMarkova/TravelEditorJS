@@ -1,14 +1,9 @@
 THIS PROJECT IS A LOCAL FEATURE EDITOR WITH SAVING INFO IN BROWSER
 
 NEXT TODOS: 
+data serialization (with sql-lite or browser cashe)
+control panel style
 
-pug
-sass
-data serialization
-
-Use pag templates to separate long html-file
-Use scss for css processing
-For local browsing cashing use SQL-LITE IN BROWSER
 Use typescript support
 Feature animations
 pdf-exporting

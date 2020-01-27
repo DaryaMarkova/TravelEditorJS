@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'ol/ol.css';
 import 'jquery/dist/jquery.slim';
-import './styles/style.css';
+import './styles/style.scss';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import Map from 'ol/Map';
