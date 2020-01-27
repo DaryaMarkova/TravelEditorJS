@@ -1,0 +1,33 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    meta(http-equiv="X-UA-Compatible" content="ie=edge")
+
+    title Travel editor
+    
+    body
+      // map containers
+      div#map.map
+
+      // map zoomer
+      div#map-zoomer
+        button.btn.btn-light.zoom_up(type="button") +
+        button.btn.btn-light.zoom_down(type="button") -
+
+      // map context menu
+      div#context-menu
+        div.card
+          a.dropdown-item.select-country-item(href="#") Add country
+          a.dropdown-item(href="#") Add feature
+          a.dropdown-item(href="#") Add marker
+
+      // map control panel
+      div#control-panel
+        div.card
+          div.card-body
+            h5.card-title Travel editor
+            | Creating new map features
+
+      include src/editors/country-editor/template.pug
