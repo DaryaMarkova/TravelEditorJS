@@ -10,10 +10,14 @@ export class CountryFeature extends Feature {
 		super(feature.getProperties())
 		
 		super.setId(feature.getId());
-		super.set('activeStyle', selectedFeatureStyle(0, 123, 255, feature.get('name')));
-		super.set('baseStyle', baseFeatureStyle(0, 123, 255, feature.get('name')));
+		// TODO: redo this part
+		this.color = feature.color || '0,123,255';
+		
+		const [r, g, b] = this.color.split(',');
+
+		super.set('activeStyle', selectedFeatureStyle(r, g, b, feature.get('name')));
+		super.set('baseStyle', baseFeatureStyle(r, g, b, feature.get('name')));
 		super.setStyle(emptyFeatureStyle()) 
-		this.color = '0,123,255';
 	}
 
 	get baseStyle() {

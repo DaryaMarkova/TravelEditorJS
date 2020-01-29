@@ -1,14 +1,15 @@
 import GeoJSON from 'ol/format/GeoJSON';
 import countriesData from './../../data/countries.geo.json';
-import { CountryEditorControlPanel, COUNTRY_EDITOR_CONTROL_PANEL_EVENTS } from './country.control.panel.js';
+import { CountryEditorControlPanel } from './country.control.panel.js';
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { CountryFeature } from './country.feature';
+import { serializer } from './serializer.js';
 
 export class MapCountryEditor {
   constructor(map) {
     this.map = map; 
-		this.control = new CountryEditorControlPanel(map, '#country-editor-control-panel');
+    this.control = new CountryEditorControlPanel(map, '#country-editor-control-panel');
 		this.bindEvents();
   }
 
@@ -19,7 +20,7 @@ export class MapCountryEditor {
       features.forEach(ft => {
 				ft.created = true;
 				ft.setStyle(ft.baseStyle)
-			}); 
+      }); 
     })
 
     this.map.on('click', event => {
@@ -39,6 +40,7 @@ export class MapCountryEditor {
       return;
     }
 
+    // use service for reading features either from cashe or data file firstly
     this.vectorSource = new VectorSource({
       features: (new GeoJSON({
         dataProjection: 'EPSG:4326',
@@ -50,7 +52,7 @@ export class MapCountryEditor {
 			source: this.vectorSource
 		}))
 		
-		this.map.addControl(this.control);
+    this.map.addControl(this.control);
   }
   
   findFeatures(point) {
