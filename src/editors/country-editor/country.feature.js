@@ -6,18 +6,21 @@ import {
 } from './country.feature.style.js';
 
 export class CountryFeature extends Feature {
+	// TODO: this constructor is so ugly
 	constructor(feature) {
 		super(feature.getProperties())
-		
 		super.setId(feature.getId());
-		// TODO: redo this part
-		this.color = feature.color || '0,123,255';
-		
-		const [r, g, b] = this.color.split(',');
 
-		super.set('activeStyle', selectedFeatureStyle(r, g, b, feature.get('name')));
-		super.set('baseStyle', baseFeatureStyle(r, g, b, feature.get('name')));
-		super.setStyle(emptyFeatureStyle()) 
+		const color = feature.get('color') || '0,123,255';
+		const showLabel = feature.get('showLabel') || false;
+
+		super.set('activeStyle', selectedFeatureStyle(color, feature.get('name')), showLabel);
+		super.set('baseStyle', baseFeatureStyle(color, feature.get('name')), showLabel);
+		super.set('showLabel', showLabel);
+		super.set('color', color);
+
+		const defaultStyle = feature.get('created') ? this.baseStyle : emptyFeatureStyle();
+		super.setStyle(defaultStyle);
 	}
 
 	get baseStyle() {
@@ -30,17 +33,15 @@ export class CountryFeature extends Feature {
 
 	// style: {color, showLabel}
 	set baseStyle(style) {
-		const color = style.color || this.color, show = style.showLabel || this.showLabel;
-		const [r, g, b] = color.split(','); 
-		const baseStyle = baseFeatureStyle(r, g, b, super.get('name'), show);
+		const color = style.color || super.get('color'), show = style.showLabel || super.get('showLabel');
+		const baseStyle = baseFeatureStyle(color, super.get('name'), show);
 		super.set('baseStyle', baseStyle);
 	} 
 
 	// style: {color, showLabel}
 	set activeStyle(style) {
-		const color = style.color || this.color, show = style.showLabel || this.showLabel;
-		const [r, g, b] = color.split(',');
-		const activeStyle = selectedFeatureStyle(r, g, b, super.get('name'), show);
+		const color = style.color || super.get('color'), show = style.showLabel || super.get('showLabel');
+		const activeStyle = selectedFeatureStyle(color, super.get('name'), show);
 		super.set('activeStyle', activeStyle);
 	}
 

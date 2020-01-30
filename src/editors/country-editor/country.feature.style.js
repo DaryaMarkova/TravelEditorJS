@@ -23,7 +23,9 @@ export const emptyFeatureStyle = () => {
   });
 }
 
-export const baseFeatureStyle = (R, G, B, label, showLabel = false) => {
+export const baseFeatureStyle = (color, label, showLabel = false) => {
+  const [R, G, B] = color.split(',');
+
   return () => {
     const polygonStyle = new Style({
       fill: new Fill({
@@ -40,7 +42,9 @@ export const baseFeatureStyle = (R, G, B, label, showLabel = false) => {
   }
 }
 
-export const selectedFeatureStyle = (R, G, B, label, showLabel = false) => {
+export const selectedFeatureStyle = (color, label, showLabel = false) => {
+  const [R, G, B] = color.split(',');
+
   return () => {
     const polygonStyle = new Style({
       fill: new Fill({
