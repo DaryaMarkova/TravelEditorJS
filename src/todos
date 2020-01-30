@@ -1,8 +1,9 @@
 THIS PROJECT IS A LOCAL FEATURE EDITOR WITH SAVING INFO IN BROWSER
 
 NEXT TODOS: 
-fix label  serialization (isn't updated)
-data serialization (with sql-lite or browser cashe)
+data serialization (with sql-lite)
+feature animations
+custom labels
 control panel style
 
 Use typescript support

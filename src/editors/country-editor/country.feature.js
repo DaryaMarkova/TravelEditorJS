@@ -14,8 +14,8 @@ export class CountryFeature extends Feature {
 		const color = feature.get('color') || '0,123,255';
 		const showLabel = feature.get('showLabel') || false;
 
-		super.set('activeStyle', selectedFeatureStyle(color, feature.get('name')), showLabel);
-		super.set('baseStyle', baseFeatureStyle(color, feature.get('name')), showLabel);
+		super.set('activeStyle', selectedFeatureStyle(color, feature.get('name'), showLabel));
+		super.set('baseStyle', baseFeatureStyle(color, feature.get('name'), showLabel));
 		super.set('showLabel', showLabel);
 		super.set('color', color);
 
