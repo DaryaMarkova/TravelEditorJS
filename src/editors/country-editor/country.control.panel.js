@@ -22,23 +22,28 @@ export class CountryEditorControlPanel extends Control {
     this.colorSwitcher$.on('click', ({target}) => {
       const value = $(target).attr('rgb');
 
-      this.feature.color = value;
+      this.feature.set('color', value);
       this.feature.activeStyle = { color: value }; 
       this.feature.baseStyle = { color: value };
       this.feature.renderActive();
+    
+      this.notifyChanged();     
     });
 
     this.labelSwitcher$.on('click', ({target}) => {
       const checked = $(target).is(':checked');
 
-      this.feature.showLabel = checked;
+      this.feature.set('showLabel', checked);
       this.feature.activeStyle = { showLabel: checked }; 
       this.feature.baseStyle = {  showLabel: checked };
       this.feature.renderActive();
+      this.notifyChanged();
     })
 
+    //  TODO: add throttling
     this.description$.on('input', _ => {
-      this.feature.description = this.description$.val();
+      this.feature.set('description', this.description$.val());
+      this.notifyChanged()
     });
   }
 
@@ -48,10 +53,17 @@ export class CountryEditorControlPanel extends Control {
     this.open();
   }
 
+  notifyChanged() {
+    this.dispatchEvent({
+      type: COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.UPDATE_FEATURE,
+      feature: this.feature
+    })
+  }
+
   readProperties(feature) {
     this.title$.val(feature.get('name'));
-    this.description$.val(feature.description);
-    this.labelSwitcher$.prop("checked", !!this.feature.showLabel); 
+    this.description$.val(feature.get('description'));
+    this.labelSwitcher$.prop("checked", !!feature.get('showLabel')); 
   }
 
   open() {
@@ -61,4 +73,8 @@ export class CountryEditorControlPanel extends Control {
   close() {
     this.elem$.slideUp(200);
   }
+}
+
+export const COUNTRY_EDITOR_CONTROL_PANEL_EVENTS = {
+  UPDATE_FEATURE: 'COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.UPDATE_FEATURE'
 }
