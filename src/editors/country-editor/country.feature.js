@@ -6,20 +6,24 @@ import {
 } from './country.feature.style.js';
 
 export class CountryFeature extends Feature {
-	// TODO: this constructor is so ugly
 	constructor(feature) {
-		super(feature.getProperties())
-		super.setId(feature.getId());
+		super(feature.getProperties())		
+		this.init(feature);
+	}
 
-		const color = feature.get('color') || '0,123,255';
+	init(feature) {
+		const id = feature.getId(), color = feature.get('color') || '0,123,255', name = feature.get('name');
 		const showLabel = feature.get('showLabel') || false;
+		const baseStyle = baseFeatureStyle(color, name, showLabel);
+		const defaultStyle = feature.get('created') ? baseStyle : emptyFeatureStyle();
 
-		super.set('activeStyle', selectedFeatureStyle(color, feature.get('name'), showLabel));
-		super.set('baseStyle', baseFeatureStyle(color, feature.get('name'), showLabel));
-		super.set('showLabel', showLabel);
-		super.set('color', color);
-
-		const defaultStyle = feature.get('created') ? this.baseStyle : emptyFeatureStyle();
+		super.setId(id);
+		super.setProperties({
+			'activeStyle': selectedFeatureStyle(color, name, showLabel),
+			'baseStyle': baseStyle,
+			'showLabel': showLabel,
+			'color': color
+		});
 		super.setStyle(defaultStyle);
 	}
 
