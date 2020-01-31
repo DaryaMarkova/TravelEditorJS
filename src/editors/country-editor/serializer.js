@@ -1,9 +1,10 @@
 import GeoJSON from 'ol/format/GeoJSON';
 import countriesData from './../../data/countries.geo.json';
 import { CountryFeature } from './country.feature';
+import { dbService } from '../../services/db.service.js';
 
-// this is mock survie which uses localStorage
-class CountrySerializer {
+// TODO: optimize the code here
+export class CountrySerializer {
   constructor() {
     this.format = new GeoJSON({
       dataProjection: 'EPSG:4326', 
@@ -11,50 +12,57 @@ class CountrySerializer {
     });
   }
   
-  getFeatureCollection() {
-    const serialized = localStorage.getItem('countryFeatures');
-    
-    if (!serialized) {
-      const features = this.format.readFeatures(countriesData).map(feature => new CountryFeature(feature));
-      this.serializeFeatures(features);
-      return features;
-    }
-
-    const features = JSON.parse(serialized);
-  
-    return features.map(feature => {
-      const deserialized = this.getDeserializedFeature(feature);
-      return new CountryFeature(deserialized);
-    });
-  }
-
-  serializeFeature(feature) {
-    const serializedList = JSON.parse(localStorage.getItem('countryFeatures'));
-    const index = serializedList.findIndex(ft => ft.id === feature.getId());
-
-    serializedList[index] = this.getSerializedFeature(feature);
-    localStorage.setItem('countryFeatures', JSON.stringify(serializedList))
-  }
-
-  serializeFeatures(features) {
-    const serializedList = features.map(feature => this.getSerializedFeature(feature));
-    localStorage.setItem('countryFeatures', JSON.stringify(serializedList));
-  }
-
   getSerializedFeature(feature) {
     const serializedObject = this.format.writeFeatureObject(feature, {
       dataProjection: 'EPSG:4326',
       featureProjection: 'EPSG:3857',
     })
+    
+    const properties = serializedObject.properties;
 
-    return serializedObject;
+    return {
+      ...serializedObject, 
+      properties: {
+        name: properties.name,
+        color: properties.color,
+        showLabel: properties.showLabel,
+        description: properties.description,
+        created: properties.created || false
+      }
+    }
   }
   
  
   getDeserializedFeature(feature) {
-    const deserializedObject = this.format.readFeature(JSON.stringify(feature));
-    return deserializedObject;
+    return this.format.readFeature(JSON.stringify(feature));
+  }
+
+  async getFeatureCollection() {
+    const serializedList = await dbService.getAllFromStore('Countries');
+
+    if (serializedList.length < 1) {
+      const features = this.format.readFeatures(countriesData).map(it => new CountryFeature(it));
+      this.serializeFeatures(features);
+      return features;
+    }
+
+    return serializedList.map(it => {
+      const deserialized = this.getDeserializedFeature(it);
+      return new CountryFeature(deserialized);
+    })
+  }
+
+  async serializeFeatures(features) {
+    const store = await dbService.getStore('Countries', 'readwrite');
+    
+    features.forEach(feature => {
+      const serializedObj = this.getSerializedFeature(feature);
+      store.put(serializedObj, serializedObj.id);
+    });
+  }
+
+  async serializeFeature(feature) {
+    const store = await dbService.getStore('Countries', 'readwrite');
+    store.put(this.getSerializedFeature(feature), feature.getId());
   }
 }
-
-export const serializer = new CountrySerializer();

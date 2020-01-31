@@ -1,12 +1,14 @@
 import { CountryEditorControlPanel, COUNTRY_EDITOR_CONTROL_PANEL_EVENTS } from './country.control.panel.js';
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
-import { serializer } from './serializer.js';
+import { CountrySerializer } from './serializer.js';
 
 export class MapCountryEditor {
   constructor(map) {
     this.map = map; 
     this.control = new CountryEditorControlPanel(map, '#country-editor-control-panel');
+    this.serializer = new CountrySerializer();
+    
 		this.bindEvents();
   }
 
@@ -17,7 +19,8 @@ export class MapCountryEditor {
 
       selected.set('created', true);
       selected.setStyle(selected.baseStyle);
-      serializer.serializeFeature(selected);
+
+      this.serializer.serializeFeature(selected);
     })
 
     this.map.on('click', event => {
@@ -32,7 +35,7 @@ export class MapCountryEditor {
     });
 
     this.control.on(COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.UPDATE_FEATURE, ({feature}) => {
-      serializer.serializeFeature(feature);
+      this.serializer.serializeFeature(feature);
     })
   }
 
@@ -41,15 +44,17 @@ export class MapCountryEditor {
       return;
     }
 
-    this.vectorSource = new VectorSource({
-      features: serializer.getFeatureCollection()
+    this.serializer.getFeatureCollection().then(features => {
+      this.vectorSource = new VectorSource({
+        features: features
+      });
+  
+      this.map.addLayer(new VectorLayer({
+        source: this.vectorSource
+      }))
+      
+      this.map.addControl(this.control);
     });
-
-    this.map.addLayer(new VectorLayer({
-			source: this.vectorSource
-		}))
-		
-    this.map.addControl(this.control);
   }
   
   findFeatures(point) {
@@ -65,7 +70,6 @@ export class MapCountryEditor {
       this.control.applyToFeature(...features);
     }
 
-    // ????
     this.vectorSource.getFeatures().filter(ft => ft.get('created') === true).forEach(ft => {
 			const newStyle = features.includes(ft) ? ft.activeStyle : ft.baseStyle;
 			ft.setStyle(newStyle);
