@@ -41,11 +41,27 @@ class DBService {
 
     return new Promise((resolve, reject) => {
       const transaction = this.connection.transaction(storeName, 'readonly');
-      const request = transaction.objectStore(storeName).getAll();
-      
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => resolve([])
-      transaction.onerror = () => reject(transaction.error);
+			const objectStore = transaction.objectStore(storeName);
+
+			if ('getAll' in objectStore) {
+				const request = objectStore.getAll();
+				request.onsuccess = () => resolve(request.result);
+				request.onerror = () => resolve([])
+				transaction.onerror = () => reject(transaction.error);
+			} else {
+				const values = [], request = objectStore.openCursor();
+				
+				request.onsuccess = function(event) {
+					const cursor = event.target.result;
+
+					if (cursor) {
+						values.push(cursor.value);
+						cursor.continue();
+					} else {
+						resolve(values);
+					}
+				};
+			}
     })
   }
 }

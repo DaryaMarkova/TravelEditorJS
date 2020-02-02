@@ -32,7 +32,6 @@ export class CountrySerializer {
     }
   }
   
- 
   getDeserializedFeature(feature) {
     return this.format.readFeature(JSON.stringify(feature));
   }
