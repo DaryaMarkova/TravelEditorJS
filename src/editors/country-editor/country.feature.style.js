@@ -23,13 +23,13 @@ export const emptyFeatureStyle = () => {
   });
 }
 
-export const baseFeatureStyle = (color, label, showLabel = false) => {
+export const baseFeatureStyle = (color, label, showLabel = false, opacity = 0.8) => {
   const [R, G, B] = color.split(',');
 
   return () => {
     const polygonStyle = new Style({
       fill: new Fill({
-        color:  `rgba(${R}, ${G}, ${B}, 0.8)`,
+        color:  `rgba(${R}, ${G}, ${B}, ${opacity})`,
       }),
     });
 

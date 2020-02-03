@@ -24,6 +24,7 @@ export class CountryFeature extends Feature {
 			'showLabel': showLabel,
 			'color': color
 		});
+
 		super.setStyle(defaultStyle);
 	}
 

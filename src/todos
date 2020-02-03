@@ -1,9 +1,8 @@
 THIS PROJECT IS A LOCAL FEATURE EDITOR WITH SAVING INFO IN BROWSER
 
 NEXT TODOS: 
-data serialization (with indexDB)
 feature animations
-custom labels
+custom labels (overlays)
 country deletion
 control panel style
 

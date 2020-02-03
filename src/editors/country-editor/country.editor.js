@@ -2,6 +2,7 @@ import { CountryEditorControlPanel, COUNTRY_EDITOR_CONTROL_PANEL_EVENTS } from '
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { CountrySerializer } from './serializer.js';
+import { easeFeatureIn } from './animations.js';
 
 export class MapCountryEditor {
   constructor(map) {
@@ -14,11 +15,16 @@ export class MapCountryEditor {
 
   bindEvents() {
     this.map.on(MAP_COUNTRY_EDITOR_EVENTS.SELECT_COUNTRY, () => {
+      // creation new country here
       const features = this.findFeatures(this.map.pixelClickedAt);
       const [selected] = features;
 
+      if (!selected) {
+        return;
+      }
+
       selected.set('created', true);
-      selected.setStyle(selected.baseStyle);
+      easeFeatureIn(this.map, selected);
 
       this.serializer.serializeFeature(selected);
     })
@@ -70,6 +76,7 @@ export class MapCountryEditor {
       this.control.applyToFeature(...features);
     }
 
+    // выделяем выбранную фичу и снимаем выделение с остальных
     this.vectorSource.getFeatures().filter(ft => ft.get('created') === true).forEach(ft => {
 			const newStyle = features.includes(ft) ? ft.activeStyle : ft.baseStyle;
 			ft.setStyle(newStyle);

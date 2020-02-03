@@ -1,5 +1,6 @@
 import { Control } from 'ol/control';
 import $ from 'jquery/dist/jquery';
+import { CountryFeature } from '../editors/country-editor/country.feature';
 
 export class ContextMenuControl extends Control {
   constructor(map, elemId) {
@@ -18,8 +19,19 @@ export class ContextMenuControl extends Control {
     this.viewport.addEventListener('contextmenu', event => {
       const pixel = this.map.getEventPixel(event);
       this.open(pixel[0], pixel[1]);
+      // TODO: do not very like this approach to be honest
+      const features = this.map.getFeaturesAtPixel(pixel);
+      
+      if (features.find(ft => ft instanceof CountryFeature && ft.get('created'))) {
+        this.items$.eq(0).text('Remove');
+        this.items$.eq(0).attr('add', false);
+      } else {
+        this.items$.eq(0).text('Add country');
+        this.items$.eq(0).attr('add', true);
+      }
     });
 
+    // add listener and if there's 
     this.items$.on('click', event => {
       if ($(event.target).hasClass('select-country-item')) {
         this.dispatchEvent(MAP_CONTEXT_MENU_EVENTS.COUNTRY_OPTION_SELECTED)
