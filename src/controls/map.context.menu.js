@@ -24,17 +24,23 @@ export class ContextMenuControl extends Control {
       
       if (features.find(ft => ft instanceof CountryFeature && ft.get('created'))) {
         this.items$.eq(0).text('Remove');
-        this.items$.eq(0).attr('add', false);
+        this.items$.eq(0).attr('add', 0);
       } else {
         this.items$.eq(0).text('Add country');
-        this.items$.eq(0).attr('add', true);
+        this.items$.eq(0).attr('add', 1);
       }
     });
 
     // add listener and if there's 
     this.items$.on('click', event => {
-      if ($(event.target).hasClass('select-country-item')) {
-        this.dispatchEvent(MAP_CONTEXT_MENU_EVENTS.COUNTRY_OPTION_SELECTED)
+      const target = $(event.target);
+
+      if (target.hasClass('select-country-item')) {
+        if (+target.attr('add')) {
+          this.dispatchEvent(MAP_CONTEXT_MENU_EVENTS.COUNTRY_OPTION_SELECTED);
+        } else {
+          this.dispatchEvent(MAP_CONTEXT_MENU_EVENTS.REMOVE_COUNTRY_OPTION_SELECTED);
+        }
       }
       
       this.close();
@@ -73,5 +79,6 @@ export class ContextMenuControl extends Control {
 }
 
 export const MAP_CONTEXT_MENU_EVENTS = {
-  COUNTRY_OPTION_SELECTED: 'MAP_CONTEXT_MENU_EVENTS.COUNTRY_OPTION_SELECTED'
+  COUNTRY_OPTION_SELECTED: 'MAP_CONTEXT_MENU_EVENTS.COUNTRY_OPTION_SELECTED',
+  REMOVE_COUNTRY_OPTION_SELECTED: 'MAP_CONTEXT_MENU_EVENTS.REMOVE_COUNTRY_OPTION_SELECTED'
 }

@@ -57,4 +57,9 @@ export class CountryFeature extends Feature {
 	renderActive() {
 		this.setStyle(this.activeStyle);
 	}
+
+	clear() {
+		super.set('created', false);
+		super.setStyle(emptyFeatureStyle());
+	}
 }

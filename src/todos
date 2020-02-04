@@ -1,10 +1,11 @@
 THIS PROJECT IS A LOCAL FEATURE EDITOR WITH SAVING INFO IN BROWSER
 
 NEXT TODOS: 
+refactoring
+country deletion
 feature animations
 custom labels (overlays)
-country deletion
-control panel style
+control panel style (via bootstrap material design)
 
 Use typescript support
 Feature animations

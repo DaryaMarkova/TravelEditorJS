@@ -14,7 +14,7 @@ export class MapCountryEditor {
   }
 
   bindEvents() {
-    this.map.on(MAP_COUNTRY_EDITOR_EVENTS.SELECT_COUNTRY, () => {
+    this.map.on(MAP_COUNTRY_EDITOR_EVENTS.ADD_COUNTRY, () => {
       // creation new country here
       const features = this.findFeatures(this.map.pixelClickedAt);
       const [selected] = features;
@@ -26,6 +26,18 @@ export class MapCountryEditor {
       selected.set('created', true);
       easeFeatureIn(this.map, selected);
 
+      this.serializer.serializeFeature(selected);
+    })
+
+    this.map.on(MAP_COUNTRY_EDITOR_EVENTS.REMOVE_COUNTRY, () => {
+      const features = this.findFeatures(this.map.pixelClickedAt);
+      const [selected] = features;
+
+      if (!selected) {
+        return;
+      }
+
+      selected.clear();
       this.serializer.serializeFeature(selected);
     })
 
@@ -85,5 +97,6 @@ export class MapCountryEditor {
 }
 
 export const MAP_COUNTRY_EDITOR_EVENTS = {
-  SELECT_COUNTRY: 'MAP_COUNTRY_EDITOR_EVENTS.SELECT_COUNTRY'
+  ADD_COUNTRY: 'MAP_COUNTRY_EDITOR_EVENTS.SELECT_COUNTRY',
+  REMOVE_COUNTRY: 'MAP_COUNTRY_EDITOR_EVENTS.REMOVE_COUNTRY'
 }

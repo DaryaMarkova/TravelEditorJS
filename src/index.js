@@ -36,8 +36,13 @@ new MapCountryEditor(map).apply();
 
 const contextMenu = new ContextMenuControl(map, '#context-menu');
 contextMenu.on(MAP_CONTEXT_MENU_EVENTS.COUNTRY_OPTION_SELECTED, 
-  () => map.dispatchEvent(MAP_COUNTRY_EDITOR_EVENTS.SELECT_COUNTRY)
+  () => map.dispatchEvent(MAP_COUNTRY_EDITOR_EVENTS.ADD_COUNTRY)
 );
+
+contextMenu.on(MAP_CONTEXT_MENU_EVENTS.REMOVE_COUNTRY_OPTION_SELECTED, 
+  () => map.dispatchEvent(MAP_COUNTRY_EDITOR_EVENTS.REMOVE_COUNTRY)
+);
+
 map.addControl(contextMenu);
 
 const viewport = map.getViewport();
