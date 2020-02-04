@@ -19,6 +19,11 @@ export class ContextMenuControl extends Control {
     this.viewport.addEventListener('contextmenu', event => {
       const pixel = this.map.getEventPixel(event);
       this.open(pixel[0], pixel[1]);
+
+      this.map.dispatchEvent({
+        type: 'POINT_CLICKED',
+        point: pixel
+      });
       // TODO: do not very like this approach to be honest
       const features = this.map.getFeaturesAtPixel(pixel);
       

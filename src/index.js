@@ -35,6 +35,7 @@ const map = new Map({
 new MapCountryEditor(map).apply();
 
 const contextMenu = new ContextMenuControl(map, '#context-menu');
+
 contextMenu.on(MAP_CONTEXT_MENU_EVENTS.COUNTRY_OPTION_SELECTED, 
   () => map.dispatchEvent(MAP_COUNTRY_EDITOR_EVENTS.ADD_COUNTRY)
 );

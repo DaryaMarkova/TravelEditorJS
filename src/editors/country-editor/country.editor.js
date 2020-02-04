@@ -2,7 +2,7 @@ import { CountryEditorControlPanel, COUNTRY_EDITOR_CONTROL_PANEL_EVENTS } from '
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { CountrySerializer } from './serializer.js';
-import { easeFeatureIn } from './animations.js';
+import { easeFeatureIn, easeFeatureOut } from './animations.js';
 
 export class MapCountryEditor {
   constructor(map) {
@@ -38,13 +38,14 @@ export class MapCountryEditor {
       }
 
       selected.clear();
+      easeFeatureOut(this.map, selected);
       this.serializer.serializeFeature(selected);
     })
 
     this.map.on('click', event => {
       const point = event.pixel;
       this.selectedFeatures = this.findFeatures(point).filter(ft => ft.get('created') === true);
-
+      
       if (this.selectedFeatures.length < 1) {
         this.control.close();
       }

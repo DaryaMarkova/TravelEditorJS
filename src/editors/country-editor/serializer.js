@@ -3,7 +3,6 @@ import countriesData from './../../data/countries.geo.json';
 import { CountryFeature } from './country.feature';
 import { dbService } from '../../services/db.service.js';
 
-// TODO: optimize the code here
 export class CountrySerializer {
   constructor() {
     this.format = new GeoJSON({

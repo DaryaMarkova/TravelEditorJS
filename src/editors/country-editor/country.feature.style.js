@@ -52,7 +52,7 @@ export const selectedFeatureStyle = (color, label, showLabel = false) => {
       }),
       stroke: new Stroke({
         color: `rgba(${R}, ${G}, ${B}, 1)`,
-        width: 3
+        width: 5
       }),
     })
     

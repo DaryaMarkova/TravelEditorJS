@@ -60,6 +60,7 @@ export class CountryFeature extends Feature {
 
 	clear() {
 		super.set('created', false);
+		super.set('showLabel', false);
 		super.setStyle(emptyFeatureStyle());
 	}
 }
