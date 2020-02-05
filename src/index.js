@@ -35,6 +35,7 @@ const map = new Map({
 map.addControl(new ContextMenuControl(map).apply());
 new MapCountryEditor(map).apply();
 
+// TODO: avoid this part
 const viewport = map.getViewport();
 
 viewport.addEventListener('contextmenu', event => {
@@ -42,10 +43,4 @@ viewport.addEventListener('contextmenu', event => {
   
   const pixel = map.getEventPixel(event);
   map.pixelClickedAt = pixel; // TODO: looks awful
-})
-
-map.on("pointermove", function(event) {
-  const pixel = map.getEventPixel(event.originalEvent);
-  const hitted = map.hasFeatureAtPixel(pixel);
-  viewport.style.cursor = hitted ? 'pointer' : '';
 })
