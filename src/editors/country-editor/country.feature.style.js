@@ -48,11 +48,11 @@ export const selectedFeatureStyle = (color, label, showLabel = false) => {
   return () => {
     const polygonStyle = new Style({
       fill: new Fill({
-        color:  `rgba(${R}, ${G}, ${B}, 0.8)`,
+        color:  `rgba(${R}, ${G}, ${B}, 1)`,
       }),
       stroke: new Stroke({
-        color: `rgba(${R}, ${G}, ${B}, 1)`,
-        width: 5
+        color: `rgba(255, 255, 255, 1)`,
+        width: 2
       }),
     })
     

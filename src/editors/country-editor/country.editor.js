@@ -1,20 +1,22 @@
-import { CountryEditorControlPanel, COUNTRY_EDITOR_CONTROL_PANEL_EVENTS } from './country.control.panel.js';
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { CountrySerializer } from './serializer.js';
 import { easeFeatureIn, easeFeatureOut } from './animations.js';
+import { COUNTRY_EDITOR_CONTEXT_MENU_EVENTS, CountryContextMenuControl } from './controls/context.menu.js';
+import { CountryEditorControlPanel, COUNTRY_EDITOR_CONTROL_PANEL_EVENTS } from './controls/country.control.panel.js';
 
 export class MapCountryEditor {
   constructor(map) {
     this.map = map; 
     this.control = new CountryEditorControlPanel(map, '#country-editor-control-panel');
+    this.contextMenu = new CountryContextMenuControl(map).apply();
     this.serializer = new CountrySerializer();
-    
+
 		this.bindEvents();
   }
 
   bindEvents() {
-    this.map.on(MAP_COUNTRY_EDITOR_EVENTS.ADD_COUNTRY, () => {
+    this.map.on(COUNTRY_EDITOR_CONTEXT_MENU_EVENTS.CREATE_COUNTRY, () => {
       // creation new country here
       const features = this.findFeatures(this.map.pixelClickedAt);
       const [selected] = features;
@@ -29,7 +31,8 @@ export class MapCountryEditor {
       this.serializer.serializeFeature(selected);
     })
 
-    this.map.on(MAP_COUNTRY_EDITOR_EVENTS.REMOVE_COUNTRY, () => {
+    this.map.on(COUNTRY_EDITOR_CONTEXT_MENU_EVENTS.REMOVE_COUNTRY, () => {
+      // removing country
       const features = this.findFeatures(this.map.pixelClickedAt);
       const [selected] = features;
 

@@ -19,8 +19,6 @@ html(lang="en")
       // map context menu
       div#context-menu
         div.card
-          a.dropdown-item.select-country-item(href="#") Add country
-          include src/editors/country-editor/context.menu.pug
           a.dropdown-item(href="#") Add feature
           a.dropdown-item(href="#") Add marker
 
@@ -32,3 +30,4 @@ html(lang="en")
             | Creating new map features
 
       include src/editors/country-editor/template.pug
+      include src/editors/country-editor/controls/context.menu.pug

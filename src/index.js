@@ -8,8 +8,8 @@ import Map from 'ol/Map';
 import View from 'ol/View';
 import { OSM } from 'ol/source';
 import { Tile as TileLayer } from 'ol/layer';
-import { ContextMenuControl, MAP_CONTEXT_MENU_EVENTS } from './controls/map.context.menu';
-import { MapCountryEditor, MAP_COUNTRY_EDITOR_EVENTS } from './editors/country-editor/country.editor';
+import { ContextMenuControl } from './controls/map.context.menu';
+import { MapCountryEditor } from './editors/country-editor/country.editor';
 import { defaults as defaultControls } from 'ol/control';
 import { MapControlPanel } from './controls/map.control.panel';
 import { MapZoomControl } from './controls/map.zoom';
@@ -32,24 +32,14 @@ const map = new Map({
   ])
 });
 
+map.addControl(new ContextMenuControl(map).apply());
 new MapCountryEditor(map).apply();
-
-const contextMenu = new ContextMenuControl(map, '#context-menu');
-
-contextMenu.on(MAP_CONTEXT_MENU_EVENTS.COUNTRY_OPTION_SELECTED, 
-  () => map.dispatchEvent(MAP_COUNTRY_EDITOR_EVENTS.ADD_COUNTRY)
-);
-
-contextMenu.on(MAP_CONTEXT_MENU_EVENTS.REMOVE_COUNTRY_OPTION_SELECTED, 
-  () => map.dispatchEvent(MAP_COUNTRY_EDITOR_EVENTS.REMOVE_COUNTRY)
-);
-
-map.addControl(contextMenu);
 
 const viewport = map.getViewport();
 
 viewport.addEventListener('contextmenu', event => {
   event.preventDefault();
+  
   const pixel = map.getEventPixel(event);
   map.pixelClickedAt = pixel; // TODO: looks awful
 })
