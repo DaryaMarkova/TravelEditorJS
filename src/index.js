@@ -34,13 +34,3 @@ const map = new Map({
 
 map.addControl(new ContextMenuControl(map).apply());
 new MapCountryEditor(map).apply();
-
-// TODO: avoid this part
-const viewport = map.getViewport();
-
-viewport.addEventListener('contextmenu', event => {
-  event.preventDefault();
-  
-  const pixel = map.getEventPixel(event);
-  map.pixelClickedAt = pixel; // TODO: looks awful
-})
