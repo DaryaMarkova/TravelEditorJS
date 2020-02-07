@@ -17,7 +17,6 @@ export class MapCountryEditor {
 
   bindEvents() {
     this.map.on(COUNTRY_EDITOR_CONTEXT_MENU_EVENTS.CREATE_COUNTRY, () => {
-      // creation new country here
       const features = this.findFeatures(this.map.pixelClickedAt);
       const [selected] = features;
 
@@ -25,14 +24,10 @@ export class MapCountryEditor {
         return;
       }
 
-      selected.set('created', true);
-      easeFeatureIn(this.map, selected);
-
-      this.serializer.serializeFeature(selected);
+      this.createFeature(selected);
     })
 
     this.map.on(COUNTRY_EDITOR_CONTEXT_MENU_EVENTS.REMOVE_COUNTRY, () => {
-      // removing country
       const features = this.findFeatures(this.map.pixelClickedAt);
       const [selected] = features;
 
@@ -40,9 +35,7 @@ export class MapCountryEditor {
         return;
       }
 
-      selected.clear();
-      easeFeatureOut(this.map, selected);
-      this.serializer.serializeFeature(selected);
+      this.removeFeature(selected);
     })
 
     this.map.on('click', event => {
@@ -76,7 +69,25 @@ export class MapCountryEditor {
       }))
       
       this.map.addControl(this.control);
+
+      features.forEach(ft => {
+        if (ft.get('showLabel')) 
+          this.map.addOverlay(ft.overlay);
+      })
     });
+  }
+
+  createFeature(feature) {
+    feature.set('created' , true);
+    easeFeatureIn(this.map, feature);
+    
+    this.serializer.serializeFeature(feature);
+  }
+
+  removeFeature(feature) {
+    feature.clear();
+    // easeFeatureOut(this.map, feature);
+    this.serializer.serializeFeature(feature);
   }
   
   findFeatures(point) {

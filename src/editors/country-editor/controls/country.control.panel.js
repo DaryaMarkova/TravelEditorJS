@@ -32,11 +32,16 @@ export class CountryEditorControlPanel extends Control {
 
     this.labelSwitcher$.on('click', ({target}) => {
       const checked = $(target).is(':checked');
+      const overlay = this.feature.overlay;
 
       this.feature.set('showLabel', checked);
-      this.feature.activeStyle = { showLabel: checked }; 
-      this.feature.baseStyle = {  showLabel: checked };
-      this.feature.renderActive();
+  
+      if (checked) {
+        this.map.addOverlay(overlay);
+      } else {
+        this.map.removeOverlay(overlay);
+      }
+
       this.notifyChanged();
     })
 

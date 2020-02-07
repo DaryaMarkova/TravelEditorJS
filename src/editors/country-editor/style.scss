@@ -2,7 +2,6 @@
   max-width: 260px;
   margin-top: 10px;
 
-
   .btn-colored {
     display: inline-block;
     margin-left: 2px;
@@ -15,5 +14,9 @@
 
   #country-description-field {
     border-radius: 2px;
+  }
+  
+  .country-overlays-container {
+    display: none;
   }
 }

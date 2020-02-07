@@ -4,7 +4,11 @@ import {
   baseFeatureStyle, 
 	selectedFeatureStyle,
 } from './country.feature.style.js';
+import Overlay from 'ol/Overlay';
+import { featureGeometry } from './country.feature.style';
+import $ from 'jquery/dist/jquery';
 
+// TODO: rewrite
 export class CountryFeature extends Feature {
 	constructor(feature) {
 		super(feature.getProperties())		
@@ -26,6 +30,26 @@ export class CountryFeature extends Feature {
 		});
 
 		super.setStyle(defaultStyle);
+		this.createOverlay();
+	}
+
+	// TODO - move to separate fabric
+	createOverlay() {
+		const container$ = $('.country-overlays-container');
+		const overlay$ = $('.country-label-overlay');
+		const overlayId =  `country-label-overlay_${this.getId()}`;
+		const featureOverlay$ = overlay$.clone();
+
+		featureOverlay$.attr('id', overlayId);
+		featureOverlay$.text(this.get('name'));
+
+		container$.append(featureOverlay$);
+		
+		this.overlay = new Overlay({
+			element: document.getElementById(overlayId),
+			position: featureGeometry(this).getCoordinates(),
+			positioning: 'center-center'
+		});
 	}
 
 	get baseStyle() {
@@ -62,6 +86,5 @@ export class CountryFeature extends Feature {
 		super.set('created', false);
 		super.set('showLabel', false);
 		super.setStyle(emptyFeatureStyle());
-		//TODO: reset styles
 	}
 }

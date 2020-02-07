@@ -33,12 +33,12 @@ export const baseFeatureStyle = (color, label, showLabel = false, opacity = 0.8)
       }),
     });
 
-    const textStyle = new Style({
-      text: featureTextStyle(label),
-      geometry: feature => featureGeometry(feature)
-    })
-
-    return showLabel ? [polygonStyle, textStyle] : [polygonStyle];
+    // const textStyle = new Style({
+    //   text: featureTextStyle(label),
+    //   geometry: feature => featureGeometry(feature)
+    // })
+    return [ polygonStyle ];
+    // return showLabel ? [polygonStyle, textStyle] : [polygonStyle];
   }
 }
 
@@ -56,16 +56,16 @@ export const selectedFeatureStyle = (color, label, showLabel = false) => {
       }),
     })
     
-    const textStyle = new Style({
-      text: featureTextStyle(label),
-      geometry: feature => featureGeometry(feature)
-    })
-
-    return showLabel ? [polygonStyle, textStyle] : [polygonStyle];
+    // const textStyle = new Style({
+    //   text: featureTextStyle(label),
+    //   geometry: feature => featureGeometry(feature)
+    // })
+    return [ polygonStyle ];
+    // return showLabel ? [polygonStyle, textStyle] : [polygonStyle];
   }
 }
 
-const featureGeometry = feature => {
+export const featureGeometry = feature => {
   const geometry = feature.getGeometry();
 
   return geometry.getType() === 'MultiPolygon' ? 
@@ -73,7 +73,7 @@ const featureGeometry = feature => {
     geometry.getInteriorPoint();
 }
 
-function getMaxPolygon(polygons) {
+export function getMaxPolygon(polygons) {
   let maxPolygon = polygons.shift();
 
   polygons.forEach(polygon => {
