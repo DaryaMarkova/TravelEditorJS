@@ -4,6 +4,7 @@ import { CountrySerializer } from './serializer.js';
 import { easeFeatureIn, easeFeatureOut } from './animations.js';
 import { COUNTRY_EDITOR_CONTEXT_MENU_EVENTS, CountryContextMenuControl } from './controls/context.menu.js';
 import { CountryEditorControlPanel, COUNTRY_EDITOR_CONTROL_PANEL_EVENTS } from './controls/country.control.panel.js';
+import { map } from '../../index.js';
 
 export class MapCountryEditor {
   constructor(map) {
@@ -66,14 +67,14 @@ export class MapCountryEditor {
   
       this.map.addLayer(new VectorLayer({
         source: this.vectorSource
-      }))
+			}))
+
+			this.vectorSource.forEachFeature(feature => {
+				if (feature.get('showLabel')) 
+					map.addOverlay(feature.overlay);
+			})
       
       this.map.addControl(this.control);
-
-      features.forEach(ft => {
-        if (ft.get('showLabel')) 
-          this.map.addOverlay(ft.overlay);
-      })
     });
   }
 

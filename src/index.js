@@ -14,7 +14,7 @@ import { defaults as defaultControls } from 'ol/control';
 import { MapControlPanel } from './controls/map.control.panel';
 import { MapZoomControl } from './controls/map.zoom';
 
-const map = new Map({
+export const map = new Map({
   layers: [
     new TileLayer({
       source: new OSM()
