@@ -16,7 +16,8 @@ export class CountryOverlayBuilder {
 		return new Overlay({
 			element: document.getElementById(overlayId),
 			position: featureGeometry(feature).getCoordinates(),
-			positioning: 'center-center'
+			positioning: 'center-center',
+			className: 'animated-overlay'
 		})
 	}
 }

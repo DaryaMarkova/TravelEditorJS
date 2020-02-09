@@ -26,8 +26,14 @@ html(lang="en")
       div#control-panel
         div.card
           div.card-body
+
             h5.card-title Travel editor
             | Creating new map features
+        	
+            div.material-input
+                input(type="text" required="true")
+                span.input-border
+                label Это поле тестовое
 
       include src/editors/country-editor/template.pug
       include src/editors/country-editor/controls/context.menu.pug

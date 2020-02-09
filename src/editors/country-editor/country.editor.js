@@ -86,7 +86,8 @@ export class MapCountryEditor {
   }
 
   removeFeature(feature) {
-    feature.clear();
+		feature.clear();
+		map.removeOverlay(feature.overlay);
     // easeFeatureOut(this.map, feature);
     this.serializer.serializeFeature(feature);
   }

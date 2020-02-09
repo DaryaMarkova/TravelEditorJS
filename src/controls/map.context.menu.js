@@ -41,12 +41,12 @@ export class ContextMenuControl extends Control {
 
     this.opened = true;
     this.contextMenu$.css({opacity: 0, height: 0, left: `${x + 5}px`, top: `${y + 5}px`});
-    this.contextMenu$.animate({opacity: 1, height: `${100}px`}, 200)
+		this.contextMenu$.animate({opacity: 1, height: `${100}px`}, 200)
   }
 
   close() {
     this.opened = false;
-    this.contextMenu$.animate({opacity: 0, height: 0}, 200)
+		this.contextMenu$.animate({opacity: 0, height: 0}, 200)
   }
 
   get root$() {

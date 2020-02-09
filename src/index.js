@@ -3,7 +3,6 @@ import 'ol/ol.css';
 import 'jquery/dist/jquery.slim';
 import './styles/style.scss';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-
 import Map from 'ol/Map';
 import View from 'ol/View';
 import { OSM } from 'ol/source';
