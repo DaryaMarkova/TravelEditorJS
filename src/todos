@@ -1,6 +1,7 @@
 THIS PROJECT IS A LOCAL FEATURE EDITOR WITH SAVING INFO IN BROWSER
 
 NEXT TODOS: 
+fixing hiding context menu on the whole map
 refactoring
 feature animations
 custom labels (overlays)
@@ -9,3 +10,9 @@ control panel style (via bootstrap material design)
 Use typescript support
 Feature animations
 pdf-exporting
+
+Markers:
+  need to be draggable
+  animation on appearance
+  labels
+  control panel to change events

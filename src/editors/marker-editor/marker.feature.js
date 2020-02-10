@@ -8,9 +8,8 @@ export class MarkerFeature extends Feature {
 
     super.setStyle(new Style({
       image: new Icon({
-        anchor: [0.5, 0.9],
-        scale: 1,
-        src: './assets/icons/marker_icon2.png'
+        scale: 0.6,
+        src: './assets/icons/marker_icon.png'
       }),
       // text: new Text({
       //   text: 'Some place',
