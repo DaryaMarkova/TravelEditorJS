@@ -17,10 +17,11 @@ export class ContextMenuControl extends Control {
 
   bindEvents() {
     this.map.getViewport().addEventListener('contextmenu', event => {
-			event.preventDefault();
-			
+      event.preventDefault();
+      
 			const pixel = this.map.getEventPixel(event);
-			this.map.pixelClickedAt = pixel;
+      this.map.pixelClickedAt = pixel;
+
       this.open(pixel);
 
       this.map.dispatchEvent({

@@ -67,7 +67,9 @@ export class CountryEditorControlPanel extends Control {
 
   readProperties(feature) {
     this.title$.val(feature.get('name'));
-    this.description$.val(feature.get('description'));
+
+    if (feature.get('description'))
+      this.description$.val(feature.get('description'));
     this.labelSwitcher$.prop("checked", !!feature.get('showLabel')); 
   }
 

@@ -2,7 +2,9 @@
 div#country-editor-control-panel
   form
     div.form-group
-      input#country-title-field.form-control
+      .material-input
+        input.input-field#country-title-field(type="text" required="true")
+        span.input-border
 
     div.form-group.form-check
       input#country-label-switch.form-check-input(type="checkbox")
@@ -24,7 +26,10 @@ div#country-editor-control-panel
         button.btn.btn-colored(type="button" class=val.class rgb=val.color)
         
     div.form-group
-      textarea#country-description-field.form-control(rows="5")
+      .material-input
+        textarea.input-field#country-description-field(rows="5" required="true")
+        span.input-border
+        label Description
 
     div.country-overlays-container
       a(href="#").country-label-overlay.badge.badge-light

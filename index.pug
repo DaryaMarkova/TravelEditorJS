@@ -19,8 +19,6 @@ html(lang="en")
       // map context menu
       div#context-menu
         div.card
-          a.dropdown-item(href="#") Add feature
-          a.dropdown-item(href="#") Add marker
 
       // map control panel
       div#control-panel
@@ -30,10 +28,6 @@ html(lang="en")
             h5.card-title Travel editor
             | Creating new map features
         	
-            div.material-input
-                input(type="text" required="true")
-                span.input-border
-                label Это поле тестовое
-
       include src/editors/country-editor/template.pug
       include src/editors/country-editor/controls/context.menu.pug
+      include src/editors/marker-editor/controls/context.menu.pug

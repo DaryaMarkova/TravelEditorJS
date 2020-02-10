@@ -12,6 +12,7 @@ import { MapCountryEditor } from './editors/country-editor/country.editor';
 import { defaults as defaultControls } from 'ol/control';
 import { MapControlPanel } from './controls/map.control.panel';
 import { MapZoomControl } from './controls/map.zoom';
+import { MapMarkerEditor } from './editors/marker-editor/marker.editor';
 
 export const map = new Map({
   layers: [
@@ -32,4 +33,6 @@ export const map = new Map({
 });
 
 map.addControl(new ContextMenuControl(map).apply());
+
 new MapCountryEditor(map).apply();
+new MapMarkerEditor(map).apply();

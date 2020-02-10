@@ -64,17 +64,19 @@ export class MapCountryEditor {
       this.vectorSource = new VectorSource({
         features: features
       });
-  
-      this.map.addLayer(new VectorLayer({
+
+      this.vectorLayer = new VectorLayer({
         source: this.vectorSource
-			}))
+      });
+      
+      this.vectorLayer.setZIndex(0);
+      this.map.addLayer(this.vectorLayer);
+      this.map.addControl(this.control);
 
 			this.vectorSource.forEachFeature(feature => {
 				if (feature.get('showLabel')) 
 					map.addOverlay(feature.overlay);
 			})
-      
-      this.map.addControl(this.control);
     });
   }
 

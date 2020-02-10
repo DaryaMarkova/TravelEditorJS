@@ -1,9 +1,8 @@
 .material-input {
 		position: relative;
 		margin-bottom: 30px;
-		margin-top: 10px;
 
-		input {
+		.input-field {
 			padding: 10px;
 			padding-left: 2px;
 			display: block;
@@ -12,13 +11,14 @@
 			border-bottom: 1px solid #ccc;
 		}
 
-		input:focus {
+		.input-field:focus {
 			outline: none;
 		}
 
 		label {
 			display: block;
 			color: #999;
+			font-size: 12px;
 			position: absolute;
 			pointer-events: none !important;
 			left: 2px;
@@ -28,9 +28,9 @@
 			-webkit-transition: 0.2s ease all;
 		}
 
-		input:focus ~ label, input:valid ~ label {
-			top: -15px;
-			color: #5264ae;
+		.input-field:focus ~ label, .input-field:valid ~ label {
+			top: -10px;
+			color: #999;
 		}
 
 		.input-border {
@@ -57,8 +57,8 @@
 			right: 50%;
 		}
 
-		input:focus ~ .input-border:before,
-		input:focus ~ .input-border:after {
+		.input-field:focus ~ .input-border:before,
+		.input-field:focus ~ .input-border:after {
 			width: 50%;
 		}
 }
