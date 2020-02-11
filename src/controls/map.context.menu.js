@@ -11,6 +11,7 @@ export class ContextMenuControl extends Control {
   }
 
   apply() {
+    this.contextMenu$.hide();
     this.bindEvents();
     return this;
   }
@@ -41,13 +42,13 @@ export class ContextMenuControl extends Control {
     const [x, y] = point;
 
     this.opened = true;
-    this.contextMenu$.css({opacity: 0, height: 0, left: `${x + 5}px`, top: `${y + 5}px`});
-		this.contextMenu$.animate({opacity: 1, height: `${100}px`}, 200)
+    this.contextMenu$.css({left: `${x + 5}px`, top: `${y + 5}px`});
+    this.contextMenu$.slideDown(200);
   }
 
   close() {
     this.opened = false;
-		this.contextMenu$.animate({opacity: 0, height: 0}, 200)
+    this.contextMenu$.slideUp(100);
   }
 
   get root$() {

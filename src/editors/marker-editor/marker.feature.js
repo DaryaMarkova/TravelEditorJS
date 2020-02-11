@@ -10,11 +10,7 @@ export class MarkerFeature extends Feature {
       image: new Icon({
         scale: 0.6,
         src: './assets/icons/marker_icon.png'
-      }),
-      // text: new Text({
-      //   text: 'Some place',
-      //   fill: new Fill({color: '#5264ae'})
-      // })
+      })
     }))
   }
 }
