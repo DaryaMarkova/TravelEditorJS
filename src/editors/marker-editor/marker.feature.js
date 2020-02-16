@@ -1,16 +1,14 @@
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
-import { Style, Icon } from 'ol/style';
+import { MarkerOverlayBuilder } from './controls/marker.overlay';
 
 export class MarkerFeature extends Feature {
   constructor(point) {
-    super(new Point(point));
+		super(new Point(point));
+		this.overlay = MarkerOverlayBuilder.getOverlay(point);
 
-    super.setStyle(new Style({
-      image: new Icon({
-        scale: 0.6,
-        src: './assets/icons/marker_icon.png'
-      })
-    }))
+		this.on('change', function() {
+			this.overlay.setPosition(this.getGeometry().getCoordinates())
+		});
   }
 }

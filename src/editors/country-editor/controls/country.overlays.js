@@ -4,10 +4,10 @@ import { featureGeometry } from './../country.feature.style';
 
 export class CountryOverlayBuilder {
 	static getOverlay(feature) {
-		const parent$ = $('.country-overlays-container');
-		const	pattern$ = $('.country-label-overlay').eq(0);
-		const overlayId = `country-label-overlay_${feature.get('id')}`;
-		const overlay$ = pattern$.clone();
+		const parent$ = $('.country-overlays-container'), 
+			pattern$ = $('.country-label-overlay').eq(0),
+			overlayId = `country-label-overlay_${feature.get('id')}`,
+			overlay$ = pattern$.clone();
 
 		overlay$.attr('id', overlayId);
 		overlay$.text(feature.get('name'));		
