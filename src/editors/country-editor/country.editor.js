@@ -1,7 +1,7 @@
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { CountrySerializer } from './serializer.js';
-import { easeFeatureIn, easeFeatureOut } from './animations.js';
+import { easeFeatureIn } from './animations.js';
 import { COUNTRY_EDITOR_CONTEXT_MENU_EVENTS, CountryContextMenuControl } from './controls/context.menu.js';
 import { CountryEditorControlPanel, COUNTRY_EDITOR_CONTROL_PANEL_EVENTS } from './controls/country.control.panel.js';
 import { map } from '../../index.js';

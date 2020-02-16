@@ -7,7 +7,7 @@ export class MarkerOverlayBuilder {
 			pattern$ = $('.marker-label-overlay').eq(0), 
       overlay$ = pattern$.clone(); 
       
-      overlay$.text('Some place');
+      overlay$.text('New marker');
 			parent$.append(overlay$); 
 
 		return new Overlay({

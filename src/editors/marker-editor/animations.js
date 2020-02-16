@@ -1,8 +1,8 @@
-import { easeIn, inAndOut, easeOut, linear } from 'ol/easing';
+import { easeIn } from 'ol/easing';
 import { unByKey } from 'ol/Observable';
 import { baseMarkerStyle } from './marker.feature.style';
 
-export function easeMarkerIn(map, feature, onComplete) {
+export function easeMarkerIn(map, feature, onComplete, source) {
 	const start = new Date().getTime();
 	let listenerKey;
 	
@@ -11,10 +11,10 @@ export function easeMarkerIn(map, feature, onComplete) {
 		const elapsed = frameState.time - start;
 		const scale = easeIn(elapsed / duration);
 
-		feature.setStyle(baseMarkerStyle(scale));
+		feature.setStyle(baseMarkerStyle(scale, source));
 
 		if (scale >= 1) {
-			feature.setStyle(baseMarkerStyle(1));
+			feature.setStyle(baseMarkerStyle(1, source));
 			unByKey(listenerKey);
 			onComplete.call();
 			return;
