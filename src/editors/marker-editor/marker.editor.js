@@ -21,19 +21,22 @@ export class MapMarkerEditor {
 
     this.vectorSource = new VectorSource({
       features: []
-    });
+		});
+		
+		this.vectorSource.set('markerSource', true);
 
     this.vectorLayer = new VectorLayer({
       source: this.vectorSource
     });
 
     this.vectorLayer.setZIndex(1);
+		this.vectorLayer.set('markerSource', true);
 
     this.map.addLayer(this.vectorLayer);
 
     this.select = new Select({
       layers: [this.vectorLayer],
-      style: selectedMarkerStyle(1.1)
+      style: selectedMarkerStyle(1)
     })
 
     this.map.addInteraction(this.select);
@@ -49,20 +52,24 @@ export class MapMarkerEditor {
 				point = this.map.getCoordinateFromPixel(pixel),
 				marker = new MarkerFeature(point);
 			
-			easeMarkerIn(this.map, marker, () => {
-				this.map.addOverlay(marker.overlay);
-			});
+			easeMarkerIn(this.map, marker, () => this.map.addOverlay(marker.overlay));
 
 			this.vectorSource.addFeature(marker);
 			this.contextMenu.close()
 		});
-
+		// remove marker
+		this.map.on(MARKER_EDITOR_CONTEXT_MENU_EVENTS.REMOVE_MARKER, () => {
+			// not to search again
+			console.log('remove');
+		});
+		// selection marker
 		this.select.on('select', () => {
 			const selected = this.select.getFeatures().getArray()[0];
-			// marker is selected
+
 			if (!selected) {
 				const newSource = this.selectedMarker.get('source');
-				this.selectedMarker.setStyle(baseMarkerStyle(1, newSource));
+
+				this.selectedMarker.setStyle(baseMarkerStyle(0.8, newSource));
 				this.control.close();
 				return;
 			}
@@ -70,7 +77,7 @@ export class MapMarkerEditor {
 			const source = selected.get('source');
 
 			if (source) {
-				selected.setStyle(selectedMarkerStyle(1.1, source));
+				selected.setStyle(selectedMarkerStyle(1, source));
 			}
 
 			this.selectedMarker = selected;

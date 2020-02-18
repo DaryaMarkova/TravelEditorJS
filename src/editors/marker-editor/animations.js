@@ -13,8 +13,8 @@ export function easeMarkerIn(map, feature, onComplete, source) {
 
 		feature.setStyle(baseMarkerStyle(scale, source));
 
-		if (scale >= 1) {
-			feature.setStyle(baseMarkerStyle(1, source));
+		if (scale >= 0.8) {
+			feature.setStyle(baseMarkerStyle(0.8, source));
 			unByKey(listenerKey);
 			onComplete.call();
 			return;

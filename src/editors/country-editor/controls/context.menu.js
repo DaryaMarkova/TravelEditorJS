@@ -1,6 +1,7 @@
 import $ from 'jquery/dist/jquery';
 import { CountryFeature } from "../country.feature";
 import { MAP_CONTEXT_MENU_EVENTS, ContextMenuControl } from '../../../controls/map.context.menu';
+import { MapSourceTypes } from '../../../constants';
 
 export class CountryContextMenuControl extends ContextMenuControl  {
   constructor(map) {
@@ -21,9 +22,9 @@ export class CountryContextMenuControl extends ContextMenuControl  {
 
   bindEvents() {
     this.map.on(MAP_CONTEXT_MENU_EVENTS.CONTEXT_MENU_CALLED, ({point}) => {      
-      const features = this.map.getFeaturesAtPixel(point).find(
-        feature => feature instanceof CountryFeature && feature.get('created')
-      );
+      const features = this.map.getFeaturesAtPixel(point, {
+          layerFilter: layer => !!layer.get(MapSourceTypes.countrySource)
+        }).find(feature => feature instanceof CountryFeature && feature.get('created'));
 
       if (features) {
         this.createItem$.hide();

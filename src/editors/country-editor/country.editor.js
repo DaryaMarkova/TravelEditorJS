@@ -68,7 +68,8 @@ export class MapCountryEditor {
       this.vectorLayer = new VectorLayer({
         source: this.vectorSource
       });
-      
+
+      this.vectorLayer.set('countrySource', true);
       this.vectorLayer.setZIndex(0);
       this.map.addLayer(this.vectorLayer);
       this.map.addControl(this.control);
