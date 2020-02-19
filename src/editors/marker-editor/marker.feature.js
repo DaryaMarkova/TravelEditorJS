@@ -10,5 +10,7 @@ export class MarkerFeature extends Feature {
 		this.on('change', function() {
 			this.overlay.setPosition(this.getGeometry().getCoordinates())
 		});
+
+		this.set('source', './assets/icons/markers/icon3.png');
   }
 }

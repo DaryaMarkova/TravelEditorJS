@@ -6,12 +6,14 @@ import { MarkerFeature } from "./marker.feature";
 import { easeMarkerIn, easeMarkerOut } from './animations';
 import { selectedMarkerStyle, baseMarkerStyle } from './marker.feature.style';
 import { MarkerEditorControlPanel } from "./controls/marker.control.panel";
+import { MarkerSerializer } from "./serializer";
 
 export class MapMarkerEditor {
   constructor(map) {
     this.map = map;
 		this.contextMenu = new MarkerContextMenu(map).apply();
 		this.control = new MarkerEditorControlPanel(map, '#marker-editor-control-panel');
+		this.serializer = new MarkerSerializer();
   }
 
   apply() {
@@ -53,7 +55,7 @@ export class MapMarkerEditor {
 				marker = new MarkerFeature(point);
 			
 			easeMarkerIn(this.map, marker, () => this.map.addOverlay(marker.overlay));
-
+			this.serializer.serializeFeature(marker);
 			this.vectorSource.addFeature(marker);
 			this.contextMenu.close()
 		});

@@ -13,8 +13,8 @@ class DBService {
       request.onsuccess = () => resolve(request.result);
 
       request.onupgradeneeded = () => {
-        // TODO: create all the necessary storages here
         request.result.createObjectStore('Countries');
+        request.result.createObjectStore('Markers', { keyPath: "id", autoIncrement: true })
       }
     });
   }
