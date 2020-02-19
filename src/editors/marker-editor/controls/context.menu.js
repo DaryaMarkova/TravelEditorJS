@@ -37,13 +37,11 @@ export class MarkerContextMenu extends ContextMenuControl {
     });
 
     this.createItem$.on('click', () => {
-      // TODO: send selected features with event ?
       this.map.dispatchEvent(MARKER_EDITOR_CONTEXT_MENU_EVENTS.ADD_MARKER);
       super.close();
     })
 
     this.removeItem$.on('click', () => {
-      // TODO: send selected marker features with event ?
       this.map.dispatchEvent(MARKER_EDITOR_CONTEXT_MENU_EVENTS.REMOVE_MARKER);
       super.close();
     })

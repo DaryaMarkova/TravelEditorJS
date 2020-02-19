@@ -3,7 +3,7 @@ import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import { Translate, Select } from "ol/interaction";
 import { MarkerFeature } from "./marker.feature";
-import { easeMarkerIn } from './animations';
+import { easeMarkerIn, easeMarkerOut } from './animations';
 import { selectedMarkerStyle, baseMarkerStyle } from './marker.feature.style';
 import { MarkerEditorControlPanel } from "./controls/marker.control.panel";
 
@@ -57,11 +57,15 @@ export class MapMarkerEditor {
 			this.vectorSource.addFeature(marker);
 			this.contextMenu.close()
 		});
-		// remove marker
+
+		// removing marker
 		this.map.on(MARKER_EDITOR_CONTEXT_MENU_EVENTS.REMOVE_MARKER, () => {
-			// not to search again
-			console.log('remove');
+			easeMarkerOut(this.map, this.selectedMarker, () => {
+				this.map.removeOverlay(this.selectedMarker.overlay);
+				this.vectorSource.removeFeature(this.selectedMarker);
+			}, this.selectedMarker.get('source'));
 		});
+
 		// selection marker
 		this.select.on('select', () => {
 			const selected = this.select.getFeatures().getArray()[0];
