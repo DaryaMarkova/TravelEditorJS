@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  padding: 0;
+	padding: 0;
 }
 
 .map {
@@ -37,7 +37,7 @@ body {
 #control-panel {
   position: absolute;
   left: 10px;
-  top: 10px;
+  top: 70px;
   width: 300px;
 }
 
@@ -68,4 +68,57 @@ body {
 	-ms-transition: all 0.2s ease-out;
 	-o-transition: all 0.2s ease-out;
 	transition: all 0.2s ease-out;
+}
+#app-header {
+	color: white !important;
+	zoom: 1.2;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	& .navbar-brand {
+
+		img {
+			width: 40px;
+			height: 40px;
+		}
+	}
+	& button {
+		color: white !important;
+	}
+	& .form-inline {
+		position: relative;
+	}
+	& .user-profile {
+		position: absolute;
+		right: 200px;
+		padding-right: 20px;
+		border-right: 1px solid white;
+		& img {
+			width: 28px;
+			height: 28px;
+		}
+	}
+	& .dropdown-menu {
+		min-width: 200px;
+		left: -50px;
+		padding-left: 10px;
+
+		& .user-avatar {
+			display: inline-block;
+			border-radius: 50%;
+			background: transparent;
+			width: 50px;
+			height: 50px;
+		}
+		& a {
+			display: inline-block;
+			padding: 5px 10px;
+			padding-bottom: 20px;
+		}
+	}
+}
+.toast {
+	zoom: 1.1;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	opacity: 1 !important;
 }

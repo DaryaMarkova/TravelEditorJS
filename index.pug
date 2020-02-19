@@ -24,7 +24,7 @@ html(lang="en")
       div#control-panel
         div.card
           div.card-body
-            h5.card-title Travel editor
+            h5.card-title Map tools
         	
       include src/editors/country-editor/template.pug
       include src/editors/country-editor/controls/context.menu.pug
@@ -33,3 +33,32 @@ html(lang="en")
       //move to controll panel aftewords
       div.marker-overlay-container
         span.marker-label-overlay.badge.badge-light
+      nav#app-header.navbar.navbar-dark.bg-primary
+        a.navbar-brand(href='#') TravelTouch
+         img(src='./assets/icon_globe.svg')
+        div.user-profile
+         span Nastya Markova
+         a.btn-logout.btn
+          img(src='./assets/logout_icon.svg')
+        form.form-inline
+         button(type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false").btn.btn-default.dropdown-toggle.mr-sm-2 My subscriptions
+           span.caret
+         ul.dropdown-menu
+          li
+            img.user-avatar(src='./assets/user_icon.png') 
+            a(href='#') Irina Kuznetsova
+          li
+           img.user-avatar(src='./assets/user_icon5.png')  
+           a(href='#') Natalya Muratova 
+          li 
+           img.user-avatar(src='./assets/user_icon6.png')
+           a(href='#') Pavel Osipov
+
+      div.toast#notification(role="alert" aria-live="assertive" aria-atomic="true")
+       .toast-header
+        strong.mr-auto New notification
+        small 2 mins ago
+        button(type="button" data-dismiss="toast" aria-label="Close").ml-2.mb-1.close
+         span(aria-hidden="true") &times;
+       .toast-body
+        b Pavel Osipov has just published from Moscow
