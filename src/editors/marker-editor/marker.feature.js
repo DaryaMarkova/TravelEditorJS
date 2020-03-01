@@ -1,16 +1,34 @@
 import Feature from 'ol/Feature';
-import Point from 'ol/geom/Point';
-import { MarkerOverlayBuilder } from './controls/marker.overlay';
+import { MarkerOverlayBuilder as OverlayBuilder } from './controls/marker.overlay';
+import { baseMarkerStyle, transparentMarkerStyle } from './marker.feature.style';
 
 export class MarkerFeature extends Feature {
-  constructor(point) {
-		super(new Point(point));
-		this.overlay = MarkerOverlayBuilder.getOverlay(point);
+  constructor(feature, styled = true) {
+		super(feature.getProperties());
 
+		this.defaultSource = './assets/icons/markers/icon3.png';
+		this.defaultLabel = 'New marker';
+		this.init(feature, styled);
+	}
+	
+	init(feature, styled) {
+		const imageSource = feature.get('source') || this.defaultSource;
+		const markerLabel = feature.get('label') || this.defaultLabel;
+
+		this.setId(feature.getId());
+		this.set('source', imageSource);
+		this.set('label', markerLabel);
+		
+		this.overlay = OverlayBuilder.getOverlay(feature.getGeometry().getCoordinates(), feature.get('label'));
+
+		if (styled) {
+			this.setStyle(baseMarkerStyle(0.8, imageSource));
+		} else {
+			this.setStyle(transparentMarkerStyle())
+		}
+			
 		this.on('change', function() {
 			this.overlay.setPosition(this.getGeometry().getCoordinates())
 		});
-
-		this.set('source', './assets/icons/markers/icon3.png');
-  }
+	}
 }

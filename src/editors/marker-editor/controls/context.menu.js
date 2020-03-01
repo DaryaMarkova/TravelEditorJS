@@ -1,6 +1,7 @@
 import $ from 'jquery/dist/jquery';
 import { ContextMenuControl, MAP_CONTEXT_MENU_EVENTS } from '../../../controls/map.context.menu';
 import { MapSourceTypes } from '../../../constants';
+import { MarkerFeature } from '../marker.feature';
 
 export class MarkerContextMenu extends ContextMenuControl {
   constructor(map) {
@@ -25,7 +26,12 @@ export class MarkerContextMenu extends ContextMenuControl {
     this.map.on(MAP_CONTEXT_MENU_EVENTS.CONTEXT_MENU_CALLED, ({point}) => {
       const features = this.map.getFeaturesAtPixel(point, { 
         layerFilter: layer => !!layer.get(MapSourceTypes.markerSource)
-      });
+			});
+
+			// if (!features.find(ft => ft instanceof MarkerFeature && ft.selected === true )) {
+			// 	this.removeItem$.hide();
+			// 	return;
+			// }
 
       if (features.length > 0) {
         this.removeItem$.show();

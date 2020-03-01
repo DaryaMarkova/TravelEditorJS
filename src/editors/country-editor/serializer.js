@@ -62,5 +62,5 @@ export class CountrySerializer {
   async serializeFeature(feature) {
     const store = await dbService.getStore('Countries', 'readwrite');
     store.put(this.getSerializedFeature(feature), feature.getId());
-  }
+	}
 }

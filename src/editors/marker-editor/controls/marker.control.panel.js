@@ -1,7 +1,6 @@
 import $ from 'jquery/dist/jquery';
 import { Control } from 'ol/control';
 import { easeMarkerIn } from '../animations';
-import { baseMarkerStyle } from '../marker.feature.style';
 
 export class MarkerEditorControlPanel extends Control {
 	constructor(map, elemId) {
@@ -22,22 +21,38 @@ export class MarkerEditorControlPanel extends Control {
 		this.label$.on('input', ({target}) => {
 			// TODO: throttle value
 			const label = $(target).val();
+			this.feature.set('label', label);
 			this.overlay$.text(label);
+
+			this.dispatchEvent({
+				type: MARKER_EDITOR_CONTROL_PANEL_EVENTS.MARKER_HAS_MODIFIED,
+				marker: this.feature
+			})
 		});
 
 		this.images$.on('click', ({target}) => {
 			const src = $(target).attr('src');
 			this.feature.set('source', src);
 			easeMarkerIn(this.map, this.feature, () => {}, src);
+
+			this.dispatchEvent({
+				type: MARKER_EDITOR_CONTROL_PANEL_EVENTS.MARKER_HAS_MODIFIED,
+				marker: this.feature
+			})
 		});
 	}
 
 	apply(feature) {
-		if (!feature)
+		if (!feature) {
 			return;
-
+		}
+			
 		this.feature = feature;
-		this.overlay$ = $(this.feature.overlay.element).find('.marker-label-overlay');
+		this.overlay$ = $(feature.overlay.element).find('.marker-label-overlay');
+		
+		const label = feature.get('label');
+		this.overlay$.text(label)
+		this.label$.val(label);
 		this.open();
 	}
 
@@ -49,3 +64,8 @@ export class MarkerEditorControlPanel extends Control {
     this.elem$.slideUp(200);
   }
 }
+
+export const MARKER_EDITOR_CONTROL_PANEL_EVENTS = {
+	MARKER_HAS_MODIFIED: 'MARKER_EDITOR_CONTROL_PANEL_EVENTS.MARKER_HAS_MODIFIED'
+}
+
