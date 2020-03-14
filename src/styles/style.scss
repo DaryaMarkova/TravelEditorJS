@@ -1,0 +1,24 @@
+body {
+	margin: 0;
+}
+
+#travel-map {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+
+	.ol-zoom {
+    display: none;
+  }
+}
+
+.travel-map__control-panel {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	max-width: 300px;
+
+	.mdl-card {
+		min-height: auto;
+	}
+}

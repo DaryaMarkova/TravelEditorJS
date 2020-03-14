@@ -26,16 +26,26 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
+        test: /\.scss$/,
         use: [
-          'file-loader'
+          {
+            loader: "style-loader"
+          },
+          {
+            loader: "css-loader" 
+          },
+          {
+            loader: "sass-loader" 
+          }
         ]
       },
       {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ['file-loader']
+      },
+      {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: [
-          'file-loader'
-        ]
+        use: ['file-loader']
       },
       {
         test: /\.m?js$/,
@@ -46,6 +56,10 @@ module.exports = {
             presets: ['@babel/preset-env']
           }
         }
+      },
+      {
+        test: /\.pug$/,
+        use: ['pug-loader']
       }
     ]
   },
@@ -56,5 +70,10 @@ module.exports = {
     new CopyPlugin([
       { from: './src/assets', to: path.resolve(__dirname, 'build/assets')}
     ])
-  ]
+	],
+	resolve: {
+		alias: {
+			styles: path.resolve(__dirname, 'src/styles')
+		}
+	}
 }

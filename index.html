@@ -6,47 +6,19 @@
         <title>Travel editor</title>
     </head>
     <body>
-      <div id="map" class="map">
-      </div>
-      <div id="context-menu">
-        <div class="card">
-          <a class="dropdown-item select-country-item" href="#">Add country</a>
-          <a class="dropdown-item" href="#">Add feature</a>
-          <a class="dropdown-item" href="#">Add marker</a>
-        </div>
-      </div>
-      <div id="control-panel">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Travel editor</h5>
-            Creating new map features
-          </div>
-        </div>
-      </div>
-      <div id="map-zoomer">
-        <button type="button" class="btn btn-light zoom_up">+</button>
-        <button type="button" class="btn btn-light zoom_down">-</button>
-      </div>
-      <!--control panel for country editor-->
-      <div id="country-editor-control-panel">
-        <form>
-          <div class="form-group">
-            <input class="form-control" id="country-title-field">
-          </div>
-          <div class="form-group">
-            <button type="button" class="btn btn-primary btn-colored" rgb="0,123,255"></button>
-            <button type="button" class="btn btn-secondary btn-colored" rgb="84,91,98"></button>
-            <button type="button" class="btn btn-success btn-colored" rgb="30,126,52"></button>
-            <button type="button" class="btn btn-danger btn-colored" rgb="220,53,69"></button>
-            <button type="button" class="btn btn-warning btn-colored" rgb="255,193,7"></button>
-            <button type="button" class="btn btn-info btn-colored" rgb="17,122,139"></button>
-            <button type="button" class="btn btn-dark btn-colored" rgb="52,58,64"></button>
-          </div>
-          <div class="form-group">
-            <textarea class="form-control" id="country-info-field" rows="5"></textarea>
-          </div>
-          <button type="button" class="btn btn-light float-right">Apply</button>
-        </form>
+      <div id="travel-map" class="map">
+				<!-- map control panel -->
+				<div class="travel-map__control-panel">
+					<div class="mdl-card mdl-shadow--2dp">
+						<div class="mdl-card__title mdl-card--border">
+							<h2 class="mdl-card__title-text">Travel</h2>
+							<i  class="material-icons" style="margin-left: 5px; line-height: 20px;">favorite_border</i>
+						</div>
+						<div class="mdl-card__supporting-text">
+							Share your travel expreience with your friends
+						</div>
+					</div>
+				</div>
       </div>
     </body>
 </html>
