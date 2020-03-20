@@ -9,7 +9,7 @@ body {
 
 	.ol-zoom {
     display: none;
-  }
+	}
 }
 
 .travel-map__control-panel {
@@ -21,4 +21,11 @@ body {
 	.mdl-card {
 		min-height: auto;
 	}
+}
+
+.travel-map__context-menu {
+	position: absolute;
+	left: 200px;
+	top: 20px;
+	z-index: 1;
 }

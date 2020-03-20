@@ -10,6 +10,7 @@ import { OSM } from 'ol/source';
 import { Tile as TileLayer } from 'ol/layer';
 import { defaults as defaultControls } from 'ol/control';
 import { ControlPanel } from './controls/control-panel';
+import { ContextMenuControl } from './controls/context-menu';
 
 const map = new Map({
   layers: [
@@ -24,6 +25,7 @@ const map = new Map({
     zoom: 1
 	}),
 	controls: defaultControls().extend([
-		new ControlPanel('.travel-map__control-panel')
+		new ControlPanel('.travel-map__control-panel'),
+		new ContextMenuControl('.travel-map__context-menu')
 	])
 });
