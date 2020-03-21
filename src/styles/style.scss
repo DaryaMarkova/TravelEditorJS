@@ -28,4 +28,8 @@ body {
 	left: 200px;
 	top: 20px;
 	z-index: 1;
+
+	button#travel-map__context-menu-button {
+		display: none;
+	}
 }

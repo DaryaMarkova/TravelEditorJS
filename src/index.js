@@ -1,5 +1,4 @@
 import 'ol/ol.css';
-// import $ from 'jquery';
 import 'styles/style.scss';
 import 'material-design-lite/dist/material.teal-red.min.css';
 import 'material-design-lite/dist/material.min.js';
@@ -25,7 +24,8 @@ const map = new Map({
     zoom: 1
 	}),
 	controls: defaultControls().extend([
-		new ControlPanel('.travel-map__control-panel'),
-		new ContextMenuControl('.travel-map__context-menu')
+		new ControlPanel('.travel-map__control-panel')
 	])
 });
+
+map.addControl(new ContextMenuControl('.travel-map__context-menu', map))
