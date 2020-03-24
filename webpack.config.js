@@ -73,7 +73,11 @@ module.exports = {
 	],
 	resolve: {
 		alias: {
-			styles: path.resolve(__dirname, 'src/styles')
+			styles: path.resolve(__dirname, 'src/styles'),
+			data: path.resolve(__dirname, 'src/data'),
+			services: path.resolve(__dirname, 'src/services'),
+			editors: path.resolve(__dirname, 'src/editors'),
+			controls: path.resolve(__dirname, 'src/controls')
 		}
 	}
 }

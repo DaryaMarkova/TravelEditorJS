@@ -8,8 +8,8 @@ import { Map, View } from 'ol';
 import { OSM } from 'ol/source';
 import { Tile as TileLayer } from 'ol/layer';
 import { defaults as defaultControls } from 'ol/control';
-import { ControlPanel } from './controls/control-panel';
-import { ContextMenuControl } from './controls/context-menu';
+import { ControlPanel } from 'controls/control-panel';
+import { ContextMenuControl } from 'controls/context-menu';
 
 const map = new Map({
   layers: [
