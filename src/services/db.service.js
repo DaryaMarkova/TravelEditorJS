@@ -6,7 +6,7 @@ const AccessMode = {
 class DBService {
 	constructor() {
 		this.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-    this.idbTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+    	this.idbTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 		this.connection = null;
 		this.store = null;
 	}

@@ -9,7 +9,16 @@ export class CountrySerializer {
 	}
 
 	async getFeatureCollection() {
+		const serializedList = await dbService.getDataFromStore('Countries');
+		
+		if (serializedList.length < 1) {
+			return this.format.readFeatures(data).map(feature => new CountryFeature(feature));
+		}
 
+		// return serializedList.map(it => {
+    //   const deserialized = this.getDeserializedFeature(it);
+    //   return new CountryFeature(deserialized);
+    // })
 	}
 
 	async serializeFeature() {

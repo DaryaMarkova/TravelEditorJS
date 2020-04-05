@@ -10,6 +10,7 @@ import { Tile as TileLayer } from 'ol/layer';
 import { defaults as defaultControls } from 'ol/control';
 import { ControlPanel } from 'controls/control-panel';
 import { ContextMenuControl } from 'controls/context-menu';
+import { CountrySerializer } from './editors/country-editor/serializer';
 
 const map = new Map({
   layers: [
@@ -29,3 +30,8 @@ const map = new Map({
 });
 
 map.addControl(new ContextMenuControl('.travel-map__context-menu', map))
+
+new CountrySerializer().getFeatureCollection().then(data => {
+	const feature = data[0];
+	console.log(feature.getId());
+});
