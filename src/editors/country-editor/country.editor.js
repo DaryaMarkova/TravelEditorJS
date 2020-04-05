@@ -1,68 +1,57 @@
-import GeoJSON from 'ol/format/GeoJSON';
-import countriesData from './../../data/countries.geo.json';
-import { CountryEditorControlPanel, COUNTRY_EDITOR_CONTROL_PANEL_EVENTS } from './country.control.panel.js';
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
-import { 
-  emptyFeatureStyle, 
-  baseFeatureStyle, 
-  selectedFeatureStyle 
-} from './country.feature.style.js';
+import { CountrySerializer } from './serializer.js';
+import { easeFeatureIn } from './animations.js';
+import { COUNTRY_EDITOR_CONTEXT_MENU_EVENTS, CountryContextMenuControl } from './controls/context.menu.js';
+import { CountryEditorControlPanel, COUNTRY_EDITOR_CONTROL_PANEL_EVENTS } from './controls/country.control.panel.js';
+import { map } from '../../index.js';
 
-/*
-ft -> countryFeature(
-	drawBase, drawActive, drawDefault
-)
-*/
 export class MapCountryEditor {
   constructor(map) {
     this.map = map; 
-    this.defaultStyle = emptyFeatureStyle();
-    this.baseStyle = baseFeatureStyle(0, 123, 255);
-    this.activeStyle = selectedFeatureStyle(0, 123, 255);
-    this.featureStyles = {
-      'Polygon': this.defaultStyle,
-      'MultiPolygon': this.defaultStyle
-    }
+    this.control = new CountryEditorControlPanel(map, '#country-editor-control-panel');
+    this.contextMenu = new CountryContextMenuControl(map).apply();
+    this.serializer = new CountrySerializer();
 
-		this.control = new CountryEditorControlPanel(map, '#country-editor-control-panel');
 		this.bindEvents();
   }
 
   bindEvents() {
-		// добавить страну на карту впервые
-    this.map.on(MAP_COUNTRY_EDITOR_EVENTS.SELECT_COUNTRY, () => {
+    this.map.on(COUNTRY_EDITOR_CONTEXT_MENU_EVENTS.CREATE_COUNTRY, () => {
       const features = this.findFeatures(this.map.pixelClickedAt);
-      features.forEach(ft => {
-				ft.created = true;
-				ft.setStyle(ft.get('baseStyle'))
-			}); 
+      const [selected] = features;
+
+      if (!selected) {
+        return;
+      }
+
+      this.createFeature(selected);
     })
-		// выделить выбранную страну
+
+    this.map.on(COUNTRY_EDITOR_CONTEXT_MENU_EVENTS.REMOVE_COUNTRY, () => {
+      const features = this.findFeatures(this.map.pixelClickedAt);
+      const [selected] = features;
+
+      if (!selected) {
+        return;
+      }
+
+      this.removeFeature(selected);
+    })
+
     this.map.on('click', event => {
       const point = event.pixel;
-
-      this.selectedFeatures = this.findFeatures(point).filter(ft => ft.created === true);
-
+      this.selectedFeatures = this.findFeatures(point).filter(ft => ft.get('created') === true);
+      
       if (this.selectedFeatures.length < 1) {
         this.control.close();
       }
 
       this.selectFeatures(this.selectedFeatures);
-    })
+    });
 
-    // изменить стиль выбранной страны или прочие характеристики
-    this.control.on(COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.STYLE_CHANGED, data => {
-      this.selectedFeatures.forEach(ft => {
-				const [r,g,b] = data.color.split(',');
-				const activeStyle = selectedFeatureStyle(r, g, b);
-				const baseStyle = baseFeatureStyle(r, g, b);
-				
-				ft.setStyle(activeStyle);
-
-				ft.set('activeStyle', activeStyle);
-				ft.set('baseStyle', baseStyle);
-			});
+    this.control.on(COUNTRY_EDITOR_CONTROL_PANEL_EVENTS.UPDATE_FEATURE, ({feature}) => {
+      this.serializer.serializeFeature(feature);
     })
   }
 
@@ -71,23 +60,39 @@ export class MapCountryEditor {
       return;
     }
 
-    this.vectorSource = new VectorSource({
-      features: (new GeoJSON({
-        dataProjection: 'EPSG:4326',
-        featureProjection: 'EPSG:3857',
-      })).readFeatures(countriesData).map(ft => {
-				ft.set('activeStyle', this.activeStyle);
-				ft.set('baseStyle',this.baseStyle);
-				return ft;
+    this.serializer.getFeatureCollection().then(features => {
+      this.vectorSource = new VectorSource({
+        features: features
+      });
+
+      this.vectorLayer = new VectorLayer({
+        source: this.vectorSource
+      });
+
+      this.vectorLayer.set('countrySource', true);
+      this.vectorLayer.setZIndex(0);
+      this.map.addLayer(this.vectorLayer);
+      this.map.addControl(this.control);
+
+			this.vectorSource.forEachFeature(feature => {
+				if (feature.get('showLabel')) 
+					map.addOverlay(feature.overlay);
 			})
     });
+  }
 
-    this.map.addLayer(new VectorLayer({
-      source: this.vectorSource,
-      style: feature  => this.featureStyles[feature.getGeometry().getType()]
-		}))
-		
-		this.map.addControl(this.control);
+  createFeature(feature) {
+    feature.set('created' , true);
+    easeFeatureIn(this.map, feature);
+    
+    this.serializer.serializeFeature(feature);
+  }
+
+  removeFeature(feature) {
+		feature.clear();
+		map.removeOverlay(feature.overlay);
+    // easeFeatureOut(this.map, feature);
+    this.serializer.serializeFeature(feature);
   }
   
   findFeatures(point) {
@@ -100,16 +105,18 @@ export class MapCountryEditor {
 
   selectFeatures(features) {
     if (features.length > 0) {
-      this.control.open(...features);
+      this.control.applyToFeature(...features);
     }
 
-    this.vectorSource.getFeatures().filter(ft => ft.created === true).forEach(ft => {
-			const newStyle = features.includes(ft) ? ft.get('activeStyle') : ft.get('baseStyle');
+    // выделяем выбранную фичу и снимаем выделение с остальных
+    this.vectorSource.getFeatures().filter(ft => ft.get('created') === true).forEach(ft => {
+			const newStyle = features.includes(ft) ? ft.activeStyle : ft.baseStyle;
 			ft.setStyle(newStyle);
     })
   }
 }
 
 export const MAP_COUNTRY_EDITOR_EVENTS = {
-  SELECT_COUNTRY: 'MAP_COUNTRY_EDITOR_EVENTS.SELECT_COUNTRY'
+  ADD_COUNTRY: 'MAP_COUNTRY_EDITOR_EVENTS.SELECT_COUNTRY',
+  REMOVE_COUNTRY: 'MAP_COUNTRY_EDITOR_EVENTS.REMOVE_COUNTRY'
 }
